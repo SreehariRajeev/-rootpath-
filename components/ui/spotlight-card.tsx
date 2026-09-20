@@ -23,6 +23,12 @@ interface SpotlightCardProps {
   className?: string;
   onHoverEnd?: () => void;
   onHoverStart?: () => void;
+  /** CSS variable (e.g. "--accent-warm-rgb") holding the "R G B" triplet the pointer spotlight should use. */
+  spotlightColorVar?: string;
+  /** Diameter of the spotlight's radial-gradient circle, in px. */
+  spotlightSizePx?: number;
+  /** Opacity of the spotlight at its center. Keep light, this sits behind readable text. */
+  spotlightOpacity?: number;
 }
 
 export function SpotlightCard({
@@ -31,11 +37,14 @@ export function SpotlightCard({
   className,
   onHoverEnd,
   onHoverStart,
+  spotlightColorVar = "--accent-rgb",
+  spotlightSizePx = 420,
+  spotlightOpacity = 0.12,
 }: SpotlightCardProps) {
   const shouldReduceMotion = useReducedMotion() ?? false;
   const pointerX = useMotionValue(-1000);
   const pointerY = useMotionValue(-1000);
-  const spotlight = useMotionTemplate`radial-gradient(420px circle at ${pointerX}px ${pointerY}px, rgb(var(--accent-rgb) / 0.12), transparent 44%)`;
+  const spotlight = useMotionTemplate`radial-gradient(${spotlightSizePx}px circle at ${pointerX}px ${pointerY}px, rgb(var(${spotlightColorVar}) / ${spotlightOpacity}), transparent 44%)`;
 
   const handlePointerMove = (event: React.PointerEvent<HTMLElement>) => {
     if (event.pointerType !== "mouse") return;

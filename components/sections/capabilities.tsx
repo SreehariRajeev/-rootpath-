@@ -59,7 +59,8 @@ function MobileSurface() {
         <div className="mt-5 h-16 rounded-md bg-surface" />
         <div className="mt-3 h-2 w-3/4 rounded-full bg-border-strong" />
         <div className="mt-2 h-2 w-1/2 rounded-full bg-border-strong" />
-        <div className="mt-auto h-10 rounded-md border border-accent/30 bg-accent-soft" />
+        {/* Mirrors the parent card's hover state, so the mockup's "button" and the card agree */}
+        <div className="mt-auto h-10 rounded-md border border-accent-warm/25 bg-transparent transition-colors duration-200 group-hover:border-accent-warm/60 group-hover:bg-accent-warm-soft" />
       </div>
     </motion.div>
   );
@@ -123,7 +124,10 @@ export function Capabilities() {
           </div>
         </SpotlightCard>
 
-        <SpotlightCard className="min-h-[17rem] bg-surface-elevated p-6 sm:p-8">
+        <SpotlightCard
+          spotlightColorVar="--accent-warm-rgb"
+          className="group min-h-[17rem] bg-surface-accent-warm p-6 transition-colors duration-200 hover:border-accent-warm/35 sm:p-8"
+        >
           <p className="text-sm text-muted-foreground">Mobile app development</p>
           <h3 className="mt-4 text-2xl font-medium tracking-[-0.05em] text-foreground">
             Mobile apps with a clear path from screen to screen
