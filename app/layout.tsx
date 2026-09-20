@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
+import {
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_TITLE,
+  SITE_URL,
+  getJsonLd,
+} from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
@@ -34,12 +41,37 @@ const themeScript = `(() => {
 })();`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "Root-Path",
-    template: "%s | Root-Path",
+    default: SITE_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Root-Path is a lean digital engineering team for web, mobile, cloud, and technical strategy.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -60,6 +92,12 @@ export default function RootLayout({
           "min-h-[100dvh] overflow-x-hidden bg-background font-sans text-foreground antialiased",
         )}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getJsonLd()).replace(/</g, "\\u003c"),
+          }}
+        />
         <div className="min-h-[100dvh]">{children}</div>
       </body>
     </html>
