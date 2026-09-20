@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
+import { contactHref } from "@/lib/contact";
 
 const spring = {
   type: "spring" as const,
@@ -24,12 +25,6 @@ const capabilities = [
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion() ?? false;
-  const scrollToFooter = () => {
-    document
-      .getElementById("footer")
-      ?.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
-  };
-
   const reveal = (delay: number) => ({
     variants: heroItem,
     initial: shouldReduceMotion ? false : "hidden",
@@ -41,14 +36,16 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby="hero-heading"
-      className="mx-auto grid max-w-7xl items-start gap-14 border-b border-border px-6 pb-24 pt-20 sm:gap-16 sm:pb-28 sm:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:gap-20 lg:px-10 lg:pb-32 lg:pt-28"
+      className="mx-auto grid max-w-7xl items-stretch gap-14 border-b border-border px-6 pb-24 pt-20 sm:gap-16 sm:pb-28 sm:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:gap-20 lg:px-10 lg:pb-32 lg:pt-28"
     >
       <div>
         <motion.p
           {...reveal(0)}
-          className="mb-7 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-subtle"
+          className="mb-8 inline-flex items-center border-l-2 border-accent pl-3 text-foreground"
         >
-          RootPath / digital engineering
+          <span className="font-display text-lg font-semibold uppercase tracking-[0.22em] sm:text-xl">
+            ROOT-PATH
+          </span>
         </motion.p>
 
         <motion.h1
@@ -72,7 +69,12 @@ export function Hero() {
           {...reveal(0.24)}
           className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center"
         >
-          <Button size="lg" onClick={scrollToFooter}>
+          <Button
+            size="lg"
+            onClick={() => {
+              window.location.href = contactHref;
+            }}
+          >
             Start a project
           </Button>
           <motion.a
@@ -99,7 +101,7 @@ export function Hero() {
 
       <motion.aside
         {...reveal(0.18)}
-        aria-label="RootPath capabilities"
+        aria-label="Root-Path capabilities"
         className="border-t border-accent/40 pt-8 lg:mt-16 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
       >
         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-subtle">
@@ -123,13 +125,6 @@ export function Hero() {
           ))}
         </div>
 
-        <div className="mt-8 inline-flex items-center gap-2 text-xs text-muted-subtle">
-          <span
-            aria-hidden="true"
-            className="size-1.5 rounded-full bg-accent"
-          />
-          Direct collaboration
-        </div>
       </motion.aside>
     </section>
   );

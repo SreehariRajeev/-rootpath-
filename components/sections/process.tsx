@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { contactHref } from "@/lib/contact";
 
 const processItems = [
   {
@@ -37,12 +38,6 @@ const spring = {
 
 export function Process() {
   const shouldReduceMotion = useReducedMotion();
-
-  function scrollToFooter() {
-    document.querySelector("#footer")?.scrollIntoView({
-      behavior: shouldReduceMotion ? "auto" : "smooth",
-    });
-  }
 
   return (
     <section
@@ -78,7 +73,9 @@ export function Process() {
             variant="outline"
             size="lg"
             className="mt-8"
-            onClick={scrollToFooter}
+            onClick={() => {
+              window.location.href = contactHref;
+            }}
           >
             Start a project
           </Button>
