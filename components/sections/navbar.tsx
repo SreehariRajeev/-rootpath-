@@ -4,11 +4,13 @@ import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
+import { contactHref } from "@/lib/contact";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
-  { label: "Contact", href: "#footer" },
+  { label: "Contact", href: "mailto:connect@root-path.tech" },
 ] as const;
 
 const spring = {
@@ -21,26 +23,33 @@ const spring = {
 export function Navbar() {
   const [hoveredItem, setHoveredItem] = React.useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileShellOpen, setMobileShellOpen] = React.useState(false);
   const shouldReduceMotion = useReducedMotion() ?? false;
 
   const closeMobileMenu = () => setMobileOpen(false);
-  const scrollToFooter = () => {
-    document
-      .getElementById("footer")
-      ?.scrollIntoView({ behavior: shouldReduceMotion ? "auto" : "smooth" });
+  const toggleMobileMenu = () => {
+    setMobileOpen((open) => {
+      const nextOpen = !open;
+      if (nextOpen) setMobileShellOpen(true);
+      return nextOpen;
+    });
   };
 
   return (
     <header className="sticky top-4 z-40 mx-4 sm:mx-6 lg:mx-auto lg:max-w-7xl">
-      <div className="overflow-hidden rounded-lg border border-border-strong/70 bg-surface-elevated/80 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl">
+      <div
+        className={cn(
+          "relative rounded-lg border border-border-strong/70 bg-surface-elevated/80 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl",
+          mobileShellOpen && "rounded-b-none border-b-0",
+        )}
+      >
         <div className="flex h-14 items-center justify-between px-3 sm:px-4">
           <a
             href="#top"
             aria-label="RootPath home"
-            className="group inline-flex items-center gap-2 text-[13px] font-semibold tracking-[0.2em] text-foreground"
+            className="group inline-flex items-center font-mono text-base font-semibold tracking-[0.02em] text-foreground sm:text-[17px]"
           >
-            ROOTPATH
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+            &gt;<span className="text-accent">_</span>rp
           </a>
 
           <nav
@@ -72,38 +81,62 @@ export function Navbar() {
           <div className="flex items-center gap-2">
             <Button
               size="sm"
-              onClick={scrollToFooter}
+              onClick={() => {
+                window.location.href = contactHref;
+              }}
               className="hidden md:inline-flex"
             >
               Start a project
             </Button>
-            <motion.button
+            <button
               type="button"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
-              onClick={() => setMobileOpen((open) => !open)}
-              whileTap={
-                shouldReduceMotion ? undefined : { transform: "scale(0.96)" }
-              }
-              transition={spring}
-              className="rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-colors duration-150 ease-out hover:bg-surface focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
+              onClick={toggleMobileMenu}
+              className="relative z-10 inline-flex rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-150 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
             >
-              Menu
-            </motion.button>
+              {mobileOpen ? "Close" : "Menu"}
+            </button>
           </div>
         </div>
 
-        <AnimatePresence initial={false}>
+        <AnimatePresence
+          initial={false}
+          onExitComplete={() => setMobileShellOpen(false)}
+        >
           {mobileOpen ? (
             <motion.nav
               id="mobile-navigation"
               key="mobile-navigation"
               aria-label="Mobile navigation"
-              initial={shouldReduceMotion ? false : { opacity: 0, transform: "translateY(-8px)" }}
-              animate={{ opacity: 1, transform: "translateY(0)" }}
-              exit={shouldReduceMotion ? undefined : { opacity: 0, transform: "translateY(-8px)" }}
-              transition={spring}
-              className="border-t border-border px-3 pb-3 pt-2 md:hidden"
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : {
+                      transform: "translateY(-6px)",
+                      clipPath: "inset(0 0 100% 0)",
+                    }
+              }
+              animate={{
+                transform: "translateY(0)",
+                clipPath: "inset(0 0 0% 0)",
+              }}
+              exit={
+                shouldReduceMotion
+                  ? undefined
+                  : {
+                      transform: "translateY(-6px)",
+                      clipPath: "inset(0 0 100% 0)",
+                    }
+              }
+              transition={
+                shouldReduceMotion
+                  ? { duration: 0 }
+                  : { duration: 0.22, ease: [0.23, 1, 0.32, 1] }
+              }
+              style={{ transformOrigin: "top" }}
+              className="absolute -left-px -right-px top-[calc(100%-1px)] z-50 rounded-b-lg border-x border-b border-border-strong/70 bg-surface-elevated px-3 pb-3 pt-2 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl will-change-[clip-path,transform] md:hidden"
             >
               {navItems.map((item) => (
                 <a
@@ -115,6 +148,16 @@ export function Navbar() {
                   {item.label}
                 </a>
               ))}
+              <Button
+                size="default"
+                onClick={() => {
+                  closeMobileMenu();
+                  window.location.href = contactHref;
+                }}
+                className="mt-2 w-full"
+              >
+                Start a project
+              </Button>
             </motion.nav>
           ) : null}
         </AnimatePresence>

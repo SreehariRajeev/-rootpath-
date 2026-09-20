@@ -2,10 +2,12 @@
 
 import { motion, useReducedMotion } from "motion/react";
 
+import { contactHref } from "@/lib/contact";
+
 const footerLinks = [
   { label: "Services", href: "#services" },
   { label: "Process", href: "#process" },
-  { label: "Contact", href: "#footer" },
+  { label: "Contact", href: contactHref },
 ] as const;
 
 const spring = {
@@ -84,19 +86,15 @@ export function Footer() {
                 </a>
               ))}
             </nav>
-            <p className="mt-12 max-w-[12rem] text-sm leading-6 text-muted-subtle">
-              Direct collaboration
-            </p>
           </motion.aside>
         </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t border-border pt-5 text-xs text-muted-subtle sm:mt-24 sm:flex-row sm:items-center sm:justify-between">
           <a
             href="#top"
-            className="inline-flex w-fit items-center gap-2 font-semibold tracking-[0.2em] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+            className="inline-flex w-fit items-center font-mono text-base font-semibold leading-none tracking-[0.02em] text-foreground outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:text-lg"
           >
-            ROOTPATH
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-accent" />
+            &gt;<span className="text-accent">_</span>rp
           </a>
           <p>Digital engineering, kept close.</p>
         </div>
