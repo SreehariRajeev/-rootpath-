@@ -74,8 +74,7 @@ export function Footer() {
             transition={{ ...spring, delay: 0.08 }}
             className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
           >
-            <p className="eyebrow">Explore</p>
-            <nav aria-label="Footer navigation" className="mt-5 grid gap-4">
+            <nav aria-label="Footer navigation" className="grid gap-4">
               {footerLinks.map((link) => (
                 <a
                   key={link.label}
