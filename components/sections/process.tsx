@@ -81,7 +81,12 @@ export function Process() {
           </Button>
         </motion.div>
 
-        <SpotlightCard className="bg-surface-elevated p-6 sm:p-8 lg:p-10">
+        <SpotlightCard
+          spotlightColorVar="--accent-pop-rgb"
+          spotlightSizePx={640}
+          spotlightOpacity={0.15}
+          className="bg-surface-elevated p-6 sm:p-8 lg:p-10"
+        >
           <div className="mb-8 flex items-end justify-between gap-6 border-b border-border pb-5">
             <div>
               <p className="eyebrow">Working style</p>
