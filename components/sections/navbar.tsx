@@ -94,7 +94,7 @@ export function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
               onClick={toggleMobileMenu}
-              className="relative z-10 inline-flex rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-150 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
+              className="relative z-10 inline-flex cursor-pointer rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-150 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
             >
               {mobileOpen ? "Close" : "Menu"}
             </button>
@@ -133,7 +133,7 @@ export function Navbar() {
               transition={
                 shouldReduceMotion
                   ? { duration: 0 }
-                  : { duration: 0.22, ease: [0.23, 1, 0.32, 1] }
+                  : { duration: 0.5, ease: [0.23, 1, 0.32, 1] }
               }
               style={{ transformOrigin: "top" }}
               className="absolute -left-px -right-px top-[calc(100%-1px)] z-50 rounded-b-lg border-x border-b border-border-strong/70 bg-surface-elevated px-3 pb-3 pt-2 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl will-change-[clip-path,transform] md:hidden"
