@@ -46,7 +46,7 @@ export function Footer() {
               href="#process"
               whileHover={shouldReduceMotion ? undefined : "hover"}
               variants={{ rest: {}, hover: {} }}
-              className="group mt-8 inline-flex items-center gap-2 rounded-lg border border-border-strong px-5 py-3 text-sm font-medium text-foreground outline-none transition-[background-color,border-color,transform] duration-150 ease-out hover:border-accent-warm/60 hover:bg-surface focus-visible:ring-2 focus-visible:ring-accent/70"
+              className="group mt-8 inline-flex items-center gap-2 rounded-lg border border-border-strong px-5 py-3 text-sm font-medium text-foreground outline-none transition-[background-color,border-color,transform] duration-500 ease-out hover:border-accent-warm/60 hover:bg-surface focus-visible:ring-2 focus-visible:ring-accent/70"
             >
               See how we work
               <motion.span
@@ -56,7 +56,7 @@ export function Footer() {
                   hover: { transform: "translateX(4px)" },
                 }}
                 transition={spring}
-                className="text-muted-foreground transition-colors duration-150 ease-out group-hover:text-accent-warm group-focus-visible:text-accent-warm"
+                className="text-muted-foreground transition-colors duration-500 ease-out group-hover:text-accent-warm group-focus-visible:text-accent-warm"
               >
                 →
               </motion.span>
@@ -79,7 +79,7 @@ export function Footer() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="w-fit text-sm text-muted-foreground outline-none transition-colors duration-150 ease-out hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
+                  className="w-fit text-sm text-muted-foreground outline-none transition-colors duration-500 ease-out hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
                 >
                   {link.label}
                 </a>

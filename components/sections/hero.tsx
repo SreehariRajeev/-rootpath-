@@ -91,7 +91,7 @@ export function Hero() {
                 hover: { transform: "translateX(5px)" },
               }}
               transition={spring}
-              className="text-muted-foreground transition-colors duration-150 ease-out group-hover:text-accent-warm group-focus-visible:text-accent-warm"
+              className="text-muted-foreground transition-colors duration-500 ease-out group-hover:text-accent-warm group-focus-visible:text-accent-warm"
             >
               →
             </motion.span>

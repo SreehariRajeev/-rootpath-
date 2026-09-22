@@ -46,7 +46,7 @@ export function ThemeToggle() {
       type="button"
       aria-label={`Switch to ${nextTheme} theme`}
       onClick={() => selectTheme(nextTheme)}
-      className="fixed bottom-4 right-4 z-50 grid size-10 cursor-pointer place-items-center rounded-full border border-border-strong bg-surface/90 text-foreground shadow-[0_8px_24px_rgb(var(--shadow-rgb)/0.12)] outline-none backdrop-blur-md transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out hover:bg-surface-elevated active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 sm:bottom-5 sm:right-5"
+      className="fixed bottom-4 right-4 z-50 grid size-10 cursor-pointer place-items-center rounded-full border border-border-strong bg-surface/90 text-foreground shadow-[0_8px_24px_rgb(var(--shadow-rgb)/0.12)] outline-none backdrop-blur-md transition-[background-color,border-color,color,box-shadow,transform] duration-500 ease-out hover:bg-surface-elevated active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 sm:bottom-5 sm:right-5"
     >
       <AnimatePresence initial={false} mode="wait">
         <motion.span

@@ -64,7 +64,7 @@ export function Navbar() {
                 onMouseEnter={() => setHoveredItem(item.label)}
                 onFocus={() => setHoveredItem(item.label)}
                 onBlur={() => setHoveredItem(null)}
-                className="relative rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors duration-150 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
+                className="relative rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors duration-500 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
               >
                 {hoveredItem === item.label ? (
                   <motion.span
@@ -94,7 +94,7 @@ export function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
               onClick={toggleMobileMenu}
-              className="relative z-10 inline-flex cursor-pointer rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-150 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
+              className="relative z-10 inline-flex cursor-pointer rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-500 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
             >
               {mobileOpen ? "Close" : "Menu"}
             </button>
@@ -143,7 +143,7 @@ export function Navbar() {
                   key={item.label}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground outline-none transition-colors duration-150 hover:bg-surface hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
+                  className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground outline-none transition-colors duration-500 hover:bg-surface hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
                 >
                   {item.label}
                 </a>
