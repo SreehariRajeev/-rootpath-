@@ -12,6 +12,9 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
+export const dynamic = "force-static";
+
+
 const display = Space_Grotesk({
   variable: "--font-root-display",
   subsets: ["latin"],

@@ -7,6 +7,8 @@ import { Navbar } from "@/components/sections/navbar";
 import { Process } from "@/components/sections/process";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",

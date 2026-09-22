@@ -1,5 +1,8 @@
 import { ImageResponse } from "next/og";
 
+export const dynamic = "force-static";
+
+
 export const alt = "Root-Path — small-team digital engineering";
 export const size = {
   width: 1200,
