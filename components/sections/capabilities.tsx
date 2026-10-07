@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 
 import { Card } from "@/components/ui/card";
+import { Reveal, Stagger } from "@/components/ui/reveal";
 
 const spring = {
   type: "spring" as const,
@@ -95,7 +96,7 @@ export function Capabilities() {
       aria-labelledby="capabilities-heading"
       className="mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-10 lg:py-28"
     >
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <p className="eyebrow">01 · Services</p>
         <h2
           id="capabilities-heading"
@@ -103,9 +104,12 @@ export function Capabilities() {
         >
           Focused digital services for teams ready to move.
         </h2>
-      </div>
+      </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 md:grid-flow-dense md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[minmax(17rem,auto)_minmax(17rem,auto)] sm:mt-12 lg:mt-14">
+      <Stagger
+        stagger={0.1}
+        className="mt-10 grid grid-cols-1 gap-3 md:grid-flow-dense md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-[minmax(17rem,auto)_minmax(17rem,auto)] sm:mt-12 lg:mt-14"
+      >
         <Card className="min-h-[28rem] bg-surface-tint p-6 sm:min-h-[30rem] sm:p-8 md:col-span-2 lg:col-span-2 lg:row-span-2">
           <div className="flex h-full flex-col">
             <div>
@@ -188,7 +192,7 @@ export function Capabilities() {
           </p>
           <StrategyLines />
         </Card>
-      </div>
+      </Stagger>
     </section>
   );
 }

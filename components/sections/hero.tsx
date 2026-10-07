@@ -1,9 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import * as React from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { contactHref } from "@/lib/contact";
+import { goToContact } from "@/lib/contact";
 
 const spring = {
   type: "spring" as const,
@@ -25,6 +31,15 @@ const capabilities = [
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion() ?? false;
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  // The grid drifts slower than the page and the copy lifts away as the hero scrolls out.
+  const gridY = useTransform(scrollYProgress, [0, 1], ["0px", "120px"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0px", "-40px"]);
+  const contentOpacity = useTransform(scrollYProgress, [0.55, 1], [1, 0.25]);
   const reveal = (delay: number) => ({
     variants: heroItem,
     initial: shouldReduceMotion ? false : "hidden",
@@ -34,15 +49,24 @@ export function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       id="top"
       aria-labelledby="hero-heading"
-      className="relative border-b border-border"
+      className="relative overflow-hidden border-b border-border"
     >
-      <div
+      <motion.div
         aria-hidden="true"
-        className="grid-motif pointer-events-none absolute inset-0"
+        style={shouldReduceMotion ? undefined : { y: gridY }}
+        className="grid-motif pointer-events-none absolute inset-x-0 -top-32 bottom-0"
       />
-      <div className="relative mx-auto grid max-w-7xl items-stretch gap-14 px-6 pb-24 pt-20 sm:gap-16 sm:pb-28 sm:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:gap-20 lg:px-10 lg:pb-32 lg:pt-28">
+      <motion.div
+        style={
+          shouldReduceMotion
+            ? undefined
+            : { y: contentY, opacity: contentOpacity }
+        }
+        className="relative mx-auto grid max-w-7xl items-stretch gap-14 px-6 pb-24 pt-20 sm:gap-16 sm:pb-28 sm:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:gap-20 lg:px-10 lg:pb-32 lg:pt-28"
+      >
         <div>
           <motion.p
             {...reveal(0)}
@@ -91,7 +115,7 @@ export function Hero() {
             <Button
               size="lg"
               onClick={() => {
-                window.location.href = contactHref;
+                goToContact();
               }}
             >
               Start a project
@@ -142,7 +166,7 @@ export function Hero() {
             ))}
           </div>
         </motion.aside>
-      </div>
+      </motion.div>
     </section>
   );
 }

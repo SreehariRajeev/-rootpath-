@@ -3,12 +3,12 @@
 import { motion, useReducedMotion } from "motion/react";
 
 import { CliSignature, LogoMark } from "@/components/ui/logo";
-import { contactHref } from "@/lib/contact";
+import { Reveal } from "@/components/ui/reveal";
 
 const footerLinks = [
   { label: "01_services", href: "#services" },
   { label: "02_process", href: "#process" },
-  { label: "03_contact", href: contactHref },
+  { label: "03_contact", href: "#contact" },
 ] as const;
 
 const spring = {
@@ -33,16 +33,7 @@ export function Footer() {
       />
       <div className="relative mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-10 lg:py-32">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1.25fr)_minmax(13rem,0.45fr)] lg:gap-24">
-          <motion.div
-            initial={
-              shouldReduceMotion
-                ? false
-                : { opacity: 0, transform: "translateY(16px)" }
-            }
-            whileInView={{ opacity: 1, transform: "translateY(0)" }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={spring}
-          >
+          <Reveal>
             <p className="eyebrow">Start with a conversation</p>
             <h2 className="mt-6 max-w-4xl text-[clamp(3rem,7vw,6.75rem)] font-medium leading-[0.94] tracking-[-0.03em] text-foreground">
               A clearer next move starts here.
@@ -70,17 +61,11 @@ export function Footer() {
                 →
               </motion.span>
             </motion.a>
-          </motion.div>
+          </Reveal>
 
-          <motion.aside
-            initial={
-              shouldReduceMotion
-                ? false
-                : { opacity: 0, transform: "translateY(16px)" }
-            }
-            whileInView={{ opacity: 1, transform: "translateY(0)" }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ ...spring, delay: 0.08 }}
+          <Reveal
+            as="aside"
+            delay={0.1}
             className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
           >
             <nav aria-label="Footer navigation" className="grid gap-4">
@@ -94,7 +79,7 @@ export function Footer() {
                 </a>
               ))}
             </nav>
-          </motion.aside>
+          </Reveal>
         </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t border-border pt-5 text-xs text-muted-subtle sm:mt-24 sm:flex-row sm:items-center sm:justify-between">

@@ -6,13 +6,13 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/ui/logo";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { contactHref } from "@/lib/contact";
+import { goToContact } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "01_services", href: "#services" },
   { label: "02_process", href: "#process" },
-  { label: "03_contact", href: contactHref },
+  { label: "03_contact", href: "#contact" },
 ] as const;
 
 const spring = {
@@ -85,7 +85,7 @@ export function Navbar() {
             <Button
               size="sm"
               onClick={() => {
-                window.location.href = contactHref;
+                goToContact();
               }}
               className="hidden md:inline-flex"
             >
@@ -155,7 +155,7 @@ export function Navbar() {
                 size="default"
                 onClick={() => {
                   closeMobileMenu();
-                  window.location.href = contactHref;
+                  goToContact();
                 }}
                 className="mt-2 w-full"
               >

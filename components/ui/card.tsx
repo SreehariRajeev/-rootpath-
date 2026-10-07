@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
 
+import { revealItem } from "@/components/ui/reveal";
 import { cn } from "@/lib/utils";
 
 const hoverSpring = {
@@ -29,6 +30,7 @@ export function Card({
   return (
     <motion.article
       aria-label={ariaLabel}
+      variants={revealItem}
       whileHover={
         shouldReduceMotion ? undefined : { transform: "translateY(-3px)" }
       }
