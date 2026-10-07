@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = {
   primary:
-    "border-accent bg-accent text-accent-foreground hover:-translate-y-px hover:bg-accent-strong hover:shadow-[0_10px_24px_rgb(var(--accent-rgb)/0.18)]",
+    "border-accent bg-accent text-accent-foreground hover:-translate-y-px hover:bg-accent-strong",
   secondary:
     "border-border-strong bg-surface-elevated text-foreground hover:border-accent/60 hover:bg-surface",
   outline:

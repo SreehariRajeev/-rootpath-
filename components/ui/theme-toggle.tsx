@@ -1,69 +1,111 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 type Theme = "light" | "dark";
 
 const spring = {
   type: "spring" as const,
-  stiffness: 340,
-  damping: 26,
-  mass: 0.65,
+  stiffness: 260,
+  damping: 22,
+  mass: 0.8,
 };
 
+const rays = [0, 45, 90, 135, 180, 225, 270, 315];
+
+/** Sun and moon share one glyph: the core grows into a sun while a mask disc slides away and the rays rotate in. */
 export function ThemeToggle() {
   const [theme, setTheme] = React.useState<Theme>("light");
   const shouldReduceMotion = useReducedMotion() ?? false;
+  const maskId = React.useId();
 
   React.useEffect(() => {
-    const storedTheme = window.localStorage.getItem("rootpath-theme");
-    const nextTheme: Theme = storedTheme === "dark" ? "dark" : "light";
-
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
+    setTheme(
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+    );
   }, []);
 
-  function selectTheme(nextTheme: Theme) {
-    if (nextTheme === theme) return;
+  function toggle() {
+    const next: Theme = theme === "light" ? "dark" : "light";
+    const root = document.documentElement;
 
-    setTheme(nextTheme);
-    document.documentElement.dataset.theme = nextTheme;
-    window.localStorage.setItem("rootpath-theme", nextTheme);
+    setTheme(next);
+    root.dataset.theme = next;
+    try {
+      window.localStorage.setItem("rootpath-theme", next);
+    } catch {}
 
     if (!shouldReduceMotion) {
-      document.documentElement.classList.add("theme-transition");
-      window.setTimeout(() => {
-        document.documentElement.classList.remove("theme-transition");
-      }, 240);
+      root.classList.add("theme-transition");
+      window.setTimeout(() => root.classList.remove("theme-transition"), 240);
     }
   }
 
-  const nextTheme = theme === "light" ? "dark" : "light";
+  const isDark = theme === "dark";
+  const transition = shouldReduceMotion ? { duration: 0 } : spring;
 
   return (
     <button
       type="button"
-      aria-label={`Switch to ${nextTheme} theme`}
-      onClick={() => selectTheme(nextTheme)}
-      className="fixed bottom-4 right-4 z-50 grid size-10 cursor-pointer place-items-center rounded-full border border-border-strong bg-surface/90 text-foreground shadow-[0_8px_24px_rgb(var(--shadow-rgb)/0.12)] outline-none backdrop-blur-md transition-[background-color,border-color,color,box-shadow,transform] duration-500 ease-out hover:bg-surface-elevated active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 sm:bottom-5 sm:right-5"
+      aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+      aria-pressed={isDark}
+      onClick={toggle}
+      className="grid size-9 shrink-0 cursor-pointer place-items-center rounded-md text-foreground outline-none transition-[background-color,transform] duration-500 ease-out hover:bg-surface active:scale-[0.92] focus-visible:ring-2 focus-visible:ring-accent/70"
     >
-      <AnimatePresence initial={false} mode="wait">
-        <motion.span
-          key={theme}
-          aria-hidden="true"
-          initial={shouldReduceMotion ? false : { opacity: 0, transform: "scale(0.75) rotate(-12deg)" }}
-          animate={{ opacity: 1, transform: "scale(1) rotate(0deg)" }}
-          exit={shouldReduceMotion ? undefined : { opacity: 0, transform: "scale(0.75) rotate(12deg)" }}
-          transition={shouldReduceMotion ? { duration: 0 } : spring}
+      <motion.svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        className="size-[1.15rem]"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        initial={false}
+        animate={{ transform: isDark ? "rotate(40deg)" : "rotate(90deg)" }}
+        transition={transition}
+      >
+        <mask id={maskId}>
+          <rect x="0" y="0" width="24" height="24" fill="white" />
+          <motion.circle
+            r="8"
+            fill="black"
+            initial={false}
+            animate={{ cx: isDark ? 17 : 32, cy: isDark ? 6.5 : 0 }}
+            transition={transition}
+          />
+        </mask>
+        <motion.circle
+          cx="12"
+          cy="12"
+          fill="currentColor"
+          stroke="none"
+          mask={`url(#${maskId})`}
+          initial={false}
+          animate={{ r: isDark ? 9 : 4.75 }}
+          transition={transition}
+        />
+        <motion.g
+          initial={false}
+          animate={{
+            opacity: isDark ? 0 : 1,
+            transform: isDark ? "scale(0.4)" : "scale(1)",
+          }}
+          style={{ transformOrigin: "12px 12px" }}
+          transition={transition}
         >
-          {theme === "light" ? (
-            <span className="block size-4 rounded-full border-[1.5px] border-current" />
-          ) : (
-            <span className="relative block size-4 overflow-hidden rounded-full bg-current after:absolute after:-right-1 after:-top-1 after:size-4 after:rounded-full after:bg-surface/90" />
-          )}
-        </motion.span>
-      </AnimatePresence>
+          {rays.map((angle) => (
+            <line
+              key={angle}
+              x1="12"
+              y1="2"
+              x2="12"
+              y2="4.25"
+              transform={`rotate(${angle} 12 12)`}
+            />
+          ))}
+        </motion.g>
+      </motion.svg>
     </button>
   );
 }

@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
+import { Contact } from "@/components/sections/contact";
 import { Capabilities } from "@/components/sections/capabilities";
 import { Footer } from "@/components/sections/footer";
 import { Hero } from "@/components/sections/hero";
 import { Navbar } from "@/components/sections/navbar";
 import { Process } from "@/components/sections/process";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 export const dynamic = "force-static";
 
@@ -18,12 +19,13 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <ScrollProgress />
       <Navbar />
-      <ThemeToggle />
       <main>
         <Hero />
         <Capabilities />
         <Process />
+        <Contact />
       </main>
       <Footer />
     </>

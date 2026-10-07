@@ -4,13 +4,15 @@ import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { contactHref } from "@/lib/contact";
+import { LogoMark } from "@/components/ui/logo";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { goToContact } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Services", href: "#services" },
-  { label: "Process", href: "#process" },
-  { label: "Contact", href: "mailto:connect@root-path.tech" },
+  { label: "01_services", href: "#services" },
+  { label: "02_process", href: "#process" },
+  { label: "03_contact", href: "#contact" },
 ] as const;
 
 const spring = {
@@ -39,7 +41,7 @@ export function Navbar() {
     <header className="sticky top-4 z-40 mx-4 sm:mx-6 lg:mx-auto lg:max-w-7xl">
       <div
         className={cn(
-          "relative rounded-lg border border-border-strong/70 bg-surface-elevated/80 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl",
+          "relative rounded-lg border border-border-strong/70 bg-background/80 backdrop-blur-xl",
           mobileShellOpen && "rounded-b-none border-b-0",
         )}
       >
@@ -47,9 +49,9 @@ export function Navbar() {
           <a
             href="#top"
             aria-label="RootPath home"
-            className="group inline-flex items-center font-mono text-base font-semibold tracking-[0.02em] text-foreground sm:text-[17px]"
+            className="inline-flex items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
           >
-            &gt;<span className="text-accent">_</span>rp
+            <LogoMark className="text-base sm:text-[17px]" />
           </a>
 
           <nav
@@ -64,7 +66,7 @@ export function Navbar() {
                 onMouseEnter={() => setHoveredItem(item.label)}
                 onFocus={() => setHoveredItem(item.label)}
                 onBlur={() => setHoveredItem(null)}
-                className="relative rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors duration-500 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
+                className="relative rounded-md px-3 py-2 font-mono text-[13px] lowercase text-muted-foreground outline-none transition-colors duration-500 hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
               >
                 {hoveredItem === item.label ? (
                   <motion.span
@@ -79,10 +81,11 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button
               size="sm"
               onClick={() => {
-                window.location.href = contactHref;
+                goToContact();
               }}
               className="hidden md:inline-flex"
             >
@@ -94,7 +97,7 @@ export function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-navigation"
               onClick={toggleMobileMenu}
-              className="relative z-10 inline-flex cursor-pointer rounded-md border border-border-strong px-3.5 py-2 text-xs font-medium text-foreground outline-none transition-[background-color,transform] duration-500 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
+              className="relative z-10 inline-flex cursor-pointer rounded-md border border-border-strong px-3.5 py-2 font-mono text-xs text-foreground outline-none transition-[background-color,transform] duration-500 ease-out hover:bg-surface active:scale-[0.96] focus-visible:ring-2 focus-visible:ring-accent/70 md:hidden"
             >
               {mobileOpen ? "Close" : "Menu"}
             </button>
@@ -136,14 +139,14 @@ export function Navbar() {
                   : { duration: 0.5, ease: [0.23, 1, 0.32, 1] }
               }
               style={{ transformOrigin: "top" }}
-              className="absolute -left-px -right-px top-[calc(100%-1px)] z-50 rounded-b-lg border-x border-b border-border-strong/70 bg-surface-elevated px-3 pb-3 pt-2 shadow-[0_12px_36px_rgb(var(--shadow-rgb)/0.08)] backdrop-blur-xl will-change-[clip-path,transform] md:hidden"
+              className="absolute -left-px -right-px top-[calc(100%-1px)] z-50 rounded-b-lg border-x border-b border-border-strong/70 bg-background px-3 pb-3 pt-2 backdrop-blur-xl will-change-[clip-path,transform] md:hidden"
             >
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={closeMobileMenu}
-                  className="block rounded-md px-3 py-2.5 text-sm text-muted-foreground outline-none transition-colors duration-500 hover:bg-surface hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
+                  className="block rounded-md px-3 py-2.5 font-mono text-[13px] lowercase text-muted-foreground outline-none transition-colors duration-500 hover:bg-surface hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent/70"
                 >
                   {item.label}
                 </a>
@@ -152,7 +155,7 @@ export function Navbar() {
                 size="default"
                 onClick={() => {
                   closeMobileMenu();
-                  window.location.href = contactHref;
+                  goToContact();
                 }}
                 className="mt-2 w-full"
               >
