@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 import {
@@ -13,7 +13,6 @@ import { cn } from "@/lib/utils";
 import "./globals.css";
 
 export const dynamic = "force-static";
-
 
 const display = Space_Grotesk({
   variable: "--font-root-display",
@@ -39,9 +38,18 @@ const mono = JetBrains_Mono({
 const themeScript = `(() => {
   try {
     const storedTheme = window.localStorage.getItem("rootpath-theme");
-    document.documentElement.dataset.theme = storedTheme === "dark" ? "dark" : "light";
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : systemDark ? "dark" : "light";
+    document.documentElement.dataset.theme = theme;
   } catch {}
 })();`;
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f9f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0f0e" },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
-import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { Card } from "@/components/ui/card";
 import { contactHref } from "@/lib/contact";
 
 const processItems = [
@@ -60,13 +60,13 @@ export function Process() {
           <p className="eyebrow">How we work</p>
           <h2
             id="process-heading"
-            className="mt-5 max-w-xl text-4xl font-medium leading-[0.98] tracking-[-0.065em] text-foreground sm:text-5xl"
+            className="mt-5 max-w-xl text-4xl font-medium leading-[0.98] tracking-[-0.03em] text-foreground sm:text-5xl"
           >
             Clear thinking, close collaboration, careful delivery.
           </h2>
           <p className="mt-6 max-w-md text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-            The work stays close. You speak directly with the people making
-            the technical decisions, from first conversation through handoff.
+            The work stays close. You speak directly with the people making the
+            technical decisions, from first conversation through handoff.
           </p>
           <Button
             type="button"
@@ -81,12 +81,7 @@ export function Process() {
           </Button>
         </motion.div>
 
-        <SpotlightCard
-          spotlightColorVar="--accent-pop-rgb"
-          spotlightSizePx={640}
-          spotlightOpacity={0.15}
-          className="bg-surface-elevated p-6 sm:p-8 lg:p-10"
-        >
+        <Card className="bg-surface-elevated p-6 sm:p-8 lg:p-10">
           <div className="mb-8 flex items-end justify-between gap-6 border-b border-border pb-5">
             <div>
               <p className="eyebrow">Working style</p>
@@ -113,16 +108,21 @@ export function Process() {
                 transition={{ ...spring, delay: index * 0.06 }}
                 className="grid gap-3 border-b border-border py-6 last:border-b-0 last:pb-0 first:pt-0 sm:grid-cols-[minmax(10rem,0.55fr)_minmax(0,1fr)] sm:gap-8"
               >
-                <h3 className="text-xl font-medium tracking-[-0.035em] text-foreground sm:text-2xl">
-                  {item.title}
-                </h3>
+                <div>
+                  <span className="font-mono text-xs text-accent">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-1 text-xl font-medium tracking-[-0.02em] text-foreground sm:text-2xl">
+                    {item.title}
+                  </h3>
+                </div>
                 <p className="max-w-xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
                   {item.description}
                 </p>
               </motion.div>
             ))}
           </div>
-        </SpotlightCard>
+        </Card>
       </div>
     </section>
   );
