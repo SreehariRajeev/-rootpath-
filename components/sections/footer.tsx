@@ -8,8 +8,9 @@ import { Reveal } from "@/components/ui/reveal";
 
 const footerLinks = [
   { label: "01_services", href: "#services" },
-  { label: "02_process", href: "#process" },
-  { label: "03_contact", href: "#contact" },
+  { label: "02_team", href: "#team" },
+  { label: "03_process", href: "#process" },
+  { label: "04_contact", href: "#contact" },
 ] as const;
 
 const spring = {
@@ -88,6 +89,9 @@ export function Footer() {
             >
               <LogoMark className="text-base leading-none sm:text-lg" />
             </a>
+            <p className="font-mono text-xs text-muted-subtle">
+              design · frontend · backend · engineering management
+            </p>
             <CliSignature cursor className="text-sm" />
           </div>
         </div>

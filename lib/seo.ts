@@ -9,7 +9,7 @@ export const SITE_NAME = "Root-Path";
 export const SITE_TITLE = "Root-Path | Small-team digital engineering";
 
 export const SITE_DESCRIPTION =
-  "Root-Path is a lean digital engineering team for web, mobile, cloud, and technical strategy. Direct collaboration, focused scope, and fast delivery.";
+  "Root-Path is a senior digital engineering team across design, frontend, backend and engineering management, building web platforms, mobile apps, cloud infrastructure and technical strategy.";
 
 const contactEmail = contactHref.replace(/^mailto:/i, "");
 

@@ -8,6 +8,8 @@ export interface Service {
   title: string;
   description: string;
   tags: string[];
+  /** How the work is done, in the terms a technical reviewer would look for. */
+  practices: string[];
   diagram: DiagramDefinition;
 }
 
@@ -454,6 +456,12 @@ export const services: Service[] = [
     description:
       "From marketing sites to enterprise platforms, we make the structure, content, and performance work together.",
     tags: ["Next.js", "SSR", "React", "Performance"],
+    practices: [
+      "Rendering strategy chosen per route: static, server or client",
+      "Typed component system with design tokens shared with design",
+      "Performance budgets for Core Web Vitals, measured before release",
+      "Accessible to WCAG\u00a02.2\u00a0AA",
+    ],
     diagram: web,
   },
   {
@@ -464,6 +472,12 @@ export const services: Service[] = [
     description:
       "We shape the core flows and build the app for iOS, Android, React Native, or Flutter.",
     tags: ["iOS", "Android", "React Native", "Flutter"],
+    practices: [
+      "Native or cross-platform, chosen on product needs",
+      "Offline behaviour and data sync designed in where needed",
+      "Release pipelines for the App Store and Google Play",
+      "Crash reporting and analytics from the first build",
+    ],
     diagram: mobile,
   },
   {
@@ -474,6 +488,12 @@ export const services: Service[] = [
     description:
       "Clear APIs, infrastructure, and integrations for products that need to move without unnecessary complexity.",
     tags: ["AWS", "GraphQL", "Integrations"],
+    practices: [
+      "Contract-first APIs: schemas agreed before implementation",
+      "Infrastructure as code, with reproducible environments",
+      "Logs, metrics, tracing and alerting from day one",
+      "Least-privilege access and managed secrets",
+    ],
     diagram: cloud,
   },
   {
@@ -484,6 +504,12 @@ export const services: Service[] = [
     description:
       "Architecture reviews, legacy modernization, and product strategy for teams deciding what to build next.",
     tags: ["Architecture review", "Modernization plan", "Technical roadmap"],
+    practices: [
+      "Architecture and code review with written findings",
+      "Keep, refactor or replace, decided per component",
+      "Decision records your team can revisit",
+      "A roadmap sequenced by risk and dependency",
+    ],
     diagram: consult,
   },
 ];

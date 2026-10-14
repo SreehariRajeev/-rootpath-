@@ -89,8 +89,9 @@ export function Hero() {
             className="load-in mt-8 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
             style={delay(0.55)}
           >
-            Web, mobile, cloud, and technical strategy. Direct collaboration,
-            focused scope, and fast delivery.
+            Senior design, frontend, backend and engineering management in one
+            team. You work directly with the people who design, build and ship
+            your product.
           </p>
 
           <p className="mt-6 font-mono text-sm text-accent sm:text-base">

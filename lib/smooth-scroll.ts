@@ -33,15 +33,18 @@ function layoutTop(element: HTMLElement) {
 
 /**
  * Glides an element to the top of the viewport, below the sticky navbar
- * (`scroll-padding-top` on <html>). Longer jumps take a little longer, so every section
- * transition along the way plays out instead of flashing past.
+ * (`scroll-padding-top` on <html>, adjusted by the element's own `scroll-margin-top`, which
+ * pinned sections use to land flush with the top). Longer jumps take a little longer, so
+ * every section transition along the way plays out instead of flashing past.
  */
 export function scrollToElement(element: HTMLElement) {
   const padding =
     Number.parseFloat(
       getComputedStyle(document.documentElement).scrollPaddingTop,
     ) || 0;
-  const top = Math.max(0, layoutTop(element) - padding);
+  const margin =
+    Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
+  const top = Math.max(0, layoutTop(element) - padding - margin);
   const lenis = getLenis();
 
   if (lenis) {

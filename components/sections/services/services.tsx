@@ -213,6 +213,25 @@ function Step({ service, index, progress, scrubbed }: StepProps) {
           ))}
         </ul>
 
+        <div className="mt-8 max-w-md border-t border-border pt-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-subtle">
+            How we work
+          </p>
+          <ul className="mt-3 space-y-2">
+            {service.practices.map((practice) => (
+              <li
+                key={practice}
+                className="flex gap-2.5 text-sm leading-6 text-foreground"
+              >
+                <span aria-hidden="true" className="font-mono text-accent">
+                  ▹
+                </span>
+                {practice}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="mt-10 rounded-xl border border-border bg-surface/40 p-4 sm:p-6 lg:hidden">
           <SystemDiagram
             definition={service.diagram}

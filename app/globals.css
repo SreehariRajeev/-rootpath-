@@ -318,6 +318,21 @@ html.lenis {
   }
 }
 
+/* Horizontal cue: a short line that keeps travelling along its track. */
+.path-cue {
+  animation: path-cue 2.2s var(--ease-in-out) infinite;
+}
+
+@keyframes path-cue {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 ::selection {
   background: var(--accent);
   color: var(--accent-foreground);
@@ -340,7 +355,8 @@ a {
 
   .cursor,
   .route-signal,
-  .scroll-cue-line {
+  .scroll-cue-line,
+  .path-cue {
     animation: none;
   }
 

@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "01_services", href: "#services" },
-  { label: "02_process", href: "#process" },
-  { label: "03_contact", href: "#contact" },
+  { label: "02_team", href: "#team" },
+  { label: "03_process", href: "#process" },
+  { label: "04_contact", href: "#contact" },
 ] as const;
 
 const spring = {
