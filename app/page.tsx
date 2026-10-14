@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
 import { Contact } from "@/components/sections/contact";
-import { Capabilities } from "@/components/sections/capabilities";
 import { Footer } from "@/components/sections/footer";
 import { Hero } from "@/components/sections/hero";
 import { Navbar } from "@/components/sections/navbar";
 import { Process } from "@/components/sections/process";
+import { Services } from "@/components/sections/services/services";
+import { GrowIn } from "@/components/motion/grow";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 
@@ -25,9 +26,13 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
-        <Capabilities />
-        <Process />
-        <Contact />
+        <Services />
+        <GrowIn>
+          <Process />
+        </GrowIn>
+        <GrowIn>
+          <Contact />
+        </GrowIn>
       </main>
       <Footer />
     </>

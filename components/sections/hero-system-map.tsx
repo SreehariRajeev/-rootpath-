@@ -220,11 +220,11 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
               key={`base-${service.id}`}
               d={routePath(service.y)}
               pathLength={1}
-              stroke="var(--border-strong)"
               strokeWidth={1.25}
               className="route-draw"
               style={
                 {
+                  stroke: "var(--border-strong)",
                   "--route-delay": `${0.7 + index * 0.1}s`,
                 } as React.CSSProperties
               }
@@ -235,11 +235,11 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
               key={`trace-${service.id}`}
               d={routePath(service.y)}
               pathLength={1}
-              stroke="var(--accent)"
               strokeWidth={2}
               strokeDasharray={1}
               strokeDashoffset={isLit(service.id) ? 0 : 1}
               style={{
+                stroke: "var(--accent)",
                 transition: "stroke-dashoffset 0.75s var(--ease-in-out)",
               }}
             />
@@ -249,11 +249,11 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
               key={`signal-${service.id}`}
               d={routePath(service.y)}
               pathLength={1}
-              stroke="var(--accent)"
               strokeWidth={2.25}
               className="route-signal"
               style={
                 {
+                  stroke: "var(--accent)",
                   "--signal-delay": `${2.4 + index * 1.2}s`,
                   opacity: active ? 0 : 1,
                   transition: "opacity 0.3s",
@@ -267,11 +267,15 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
               cx={cx}
               cy={MID}
               r={3.5}
-              fill="var(--background)"
-              stroke="var(--accent)"
               strokeWidth={1.5}
               className="node-in"
-              style={{ "--node-delay": "0.6s" } as React.CSSProperties}
+              style={
+                {
+                  fill: "var(--background)",
+                  stroke: "var(--accent)",
+                  "--node-delay": "0.6s",
+                } as React.CSSProperties
+              }
             />
           ))}
         </motion.svg>
@@ -293,7 +297,7 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
           {services.map((service, index) => (
             <MapNode
               key={service.id}
-              href="#services"
+              href={`#service-${service.id}`}
               label={service.name}
               style={boxStyle(nodeBox.service.x, service.y, nodeBox.service.w)}
               delay={1.15 + index * 0.1}

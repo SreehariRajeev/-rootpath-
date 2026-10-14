@@ -55,7 +55,8 @@
 }
 
 :root[data-theme="dark"],
-[data-surface="inverse"] {
+[data-surface="inverse"],
+[data-tone="inverse"] {
   color-scheme: dark;
   --background: #0b0f0e;
   --foreground: #f7f9f8;
@@ -114,6 +115,32 @@ h3 {
 [data-surface="inverse"] {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* Bands stay System Black in light mode; in dark mode they lift a step so their edges read. */
+:root[data-theme="dark"] [data-band] {
+  --background: #111715;
+}
+
+/* Thin light that follows the cursor along an element's border (set --mx / --my in px). */
+.border-light {
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  pointer-events: none;
+  background: radial-gradient(
+    280px circle at var(--mx, -999px) var(--my, -999px),
+    rgb(var(--accent-rgb) / 0.85),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
 }
 
 /* Brand kicker: mono, uppercase, leading rule. Used as the small section cue. */
