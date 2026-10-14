@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  AnimatePresence,
   motion,
   useMotionValue,
   useReducedMotion,
@@ -56,6 +55,28 @@ const services = [
 
 type ServiceId = (typeof services)[number]["id"];
 type Active = ServiceId | "root" | "outcome" | null;
+type CaptionKey = NonNullable<Active> | "idle";
+
+const captions = {
+  idle: {
+    label: "Close to the work",
+    text: "Fewer handoffs. Direct access to the people making the decisions.",
+  },
+  root: {
+    label: "Start at the root",
+    text: "We begin at the fundamental level of the problem and understand the system.",
+  },
+  outcome: {
+    label: "Then take it further",
+    text: "Every route ends in a working result your team can own and extend.",
+  },
+  ...Object.fromEntries(
+    services.map((service) => [
+      service.id,
+      { label: service.name, text: service.detail },
+    ]),
+  ),
+} as Record<CaptionKey, { label: string; text: string }>;
 
 const nodeBox = {
   root: { x: 8, w: 112 },
@@ -152,7 +173,7 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
 
   const isLit = (id: ServiceId) =>
     active === id || active === "root" || active === "outcome";
-  const activeService = services.find((service) => service.id === active);
+  const captionKey: CaptionKey = active ?? "idle";
 
   const layer = (x: MotionValue<number>, y: MotionValue<number>) =>
     shouldReduceMotion ? undefined : { x, y };
@@ -316,39 +337,35 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
         </motion.div>
       </div>
 
-      {/* Caption: what the highlighted route means */}
-      <div
-        className="load-in mt-8 min-h-[4.5rem] border-t border-border pt-5 [--load-delay:1.2s]"
-        aria-live="polite"
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeService?.id ?? active ?? "idle"}
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
-              {activeService
-                ? activeService.name
-                : active === "root"
-                  ? "Start at the root"
-                  : active === "outcome"
-                    ? "Then take it further"
-                    : "Close to the work"}
-            </p>
-            <p className="mt-2 text-base leading-7 text-foreground">
-              {activeService
-                ? activeService.detail
-                : active === "root"
-                  ? "We begin at the fundamental level of the problem and understand the system."
-                  : active === "outcome"
-                    ? "Every route ends in a working result your team can own and extend."
-                    : "Fewer handoffs. Direct access to the people making the decisions."}
-            </p>
-          </motion.div>
-        </AnimatePresence>
+      {/*
+        Caption: what the highlighted route means. Every message sits in the same grid cell
+        and only the active one is shown, so the block is always as tall as its longest
+        message and hovering never shifts the hero's layout.
+      */}
+      <div className="load-in mt-8 border-t border-border pt-5 [--load-delay:1.2s]">
+        <p className="sr-only" aria-live="polite">
+          {`${captions[captionKey].label}. ${captions[captionKey].text}`}
+        </p>
+        <div aria-hidden="true" className="grid">
+          {(Object.keys(captions) as CaptionKey[]).map((key) => (
+            <div
+              key={key}
+              className={cn(
+                "[grid-area:1/1] transition-[opacity,transform] duration-300 ease-[var(--ease-out)] motion-reduce:transition-none",
+                key === captionKey
+                  ? "opacity-100"
+                  : "pointer-events-none translate-y-1.5 opacity-0",
+              )}
+            >
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-accent">
+                {captions[key].label}
+              </p>
+              <p className="mt-2 text-base leading-7 text-foreground">
+                {captions[key].text}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
