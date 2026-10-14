@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = {
   primary:
-    "border-accent bg-accent text-accent-foreground hover:-translate-y-px hover:bg-accent-strong hover:shadow-[0_10px_24px_rgb(var(--accent-rgb)/0.18)]",
+    "border-accent bg-accent text-accent-foreground hover:-translate-y-px hover:bg-accent-strong",
   secondary:
     "border-border-strong bg-surface-elevated text-foreground hover:border-accent/60 hover:bg-surface",
   outline:
@@ -55,7 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={disabled}
         className={cn(
-          "inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border font-medium tracking-[-0.01em] outline-none transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-45",
+          "inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border font-medium tracking-[-0.01em] outline-none transition-[background-color,border-color,box-shadow,transform] duration-500 ease-out active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-45",
           buttonVariants[variant],
           buttonSizes[size],
           className,
