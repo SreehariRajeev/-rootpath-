@@ -199,19 +199,24 @@ function Step({ service, index, progress, scrubbed }: StepProps) {
         <p className="mt-5 max-w-md text-base leading-7 text-muted-foreground">
           {service.description}
         </p>
-        <ul
-          className="mt-7 flex flex-wrap gap-2"
-          aria-label={`${service.name} focus areas`}
-        >
-          {service.tags.map((tag) => (
-            <li
-              key={tag}
-              className="rounded-md border border-border-strong px-2.5 py-1 font-mono text-xs text-muted-foreground"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-7 flex max-w-md flex-wrap items-center gap-2">
+          <span className="mr-1 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-subtle">
+            Stack
+          </span>
+          <ul
+            className="contents"
+            aria-label={`${service.name} technology stack`}
+          >
+            {service.tags.map((tag) => (
+              <li
+                key={tag}
+                className="rounded-md border border-border-strong px-2.5 py-1 font-mono text-xs text-foreground/85 transition-colors duration-300 hover:border-accent/60 hover:text-accent"
+              >
+                {tag}
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className="mt-8 max-w-md border-t border-border pt-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-subtle">

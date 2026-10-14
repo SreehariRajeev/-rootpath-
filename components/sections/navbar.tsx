@@ -5,7 +5,6 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/ui/logo";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { goToContact } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
@@ -127,7 +126,6 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle />
             <Button
               size="sm"
               onClick={() => {

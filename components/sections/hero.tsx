@@ -61,7 +61,7 @@ export function Hero() {
           >
             <span
               aria-hidden="true"
-              className="size-[7px] rounded-full bg-brand-green ring-4 ring-brand-green/25 dark:bg-accent dark:ring-accent/20"
+              className="size-[7px] rounded-full bg-brand-green ring-4 ring-brand-green/25"
             />
             <span className="font-display text-base font-semibold tracking-[0.22em] text-foreground sm:text-lg">
               ROOT-PATH

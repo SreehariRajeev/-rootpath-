@@ -36,20 +36,9 @@ const mono = JetBrains_Mono({
   weight: ["400", "500", "600", "700"],
 });
 
-const themeScript = `(() => {
-  try {
-    const storedTheme = window.localStorage.getItem("rootpath-theme");
-    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const theme = storedTheme === "dark" || storedTheme === "light" ? storedTheme : systemDark ? "dark" : "light";
-    document.documentElement.dataset.theme = theme;
-  } catch {}
-})();`;
-
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f9f8" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0f0e" },
-  ],
+  themeColor: "#f7f9f8",
+  colorScheme: "light",
 };
 
 export const metadata: Metadata = {
@@ -92,10 +81,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en">
       <body
         className={cn(
           display.variable,

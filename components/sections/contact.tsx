@@ -312,7 +312,7 @@ export function Contact() {
                       className={cn(
                         "text-sm",
                         status === "error"
-                          ? "text-[#a3564f] dark:text-[#c98a86]"
+                          ? "text-[#a3564f]"
                           : "text-muted-subtle",
                       )}
                     >
