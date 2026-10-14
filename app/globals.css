@@ -147,6 +147,14 @@ h3 {
   mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 75%);
 }
 
+/* Dot field behind the hero system map. */
+.map-dots {
+  background-image: radial-gradient(rgb(var(--accent-rgb) / 0.22) 1px, transparent 1.6px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 80%);
+}
+
 .cursor {
   display: inline-block;
   width: 0.6ch;
@@ -160,6 +168,126 @@ h3 {
 @keyframes cursor-blink {
   50% {
     opacity: 0;
+  }
+}
+
+/* ---------- Motion system ---------- */
+
+:root {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Lenis drives the scroll position itself; native smooth scrolling would fight it. */
+html.lenis {
+  scroll-behavior: auto;
+}
+
+/* Load-in sequence. CSS rather than JS so it starts with first paint, before hydration. */
+.load-in {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: load-in 0.9s var(--ease-out) var(--load-delay, 0s) forwards;
+}
+
+@keyframes load-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Kinetic headline: each word rises out of its own mask. */
+.kinetic-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-block: 0.06em 0.14em;
+  margin-block: -0.06em -0.14em;
+}
+
+.kinetic-inner {
+  display: inline-block;
+  transform: translateY(108%);
+  animation: kinetic-rise 1s var(--ease-out) var(--kinetic-delay, 0s) forwards;
+}
+
+@keyframes kinetic-rise {
+  to {
+    transform: none;
+  }
+}
+
+/* Typed command. Monospace, so `ch` is exactly one character. */
+.type-in {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  width: 0;
+  animation: type-in 1.1s steps(var(--chars)) var(--type-delay, 0s) forwards;
+}
+
+@keyframes type-in {
+  to {
+    width: calc(var(--chars) * 1ch);
+  }
+}
+
+/* System map: routes draw from root to outcome, then a short signal travels each one. */
+.route-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: route-draw 1.3s var(--ease-in-out) var(--route-delay, 0s) forwards;
+}
+
+@keyframes route-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.route-signal {
+  stroke-dasharray: 0.06 2;
+  stroke-dashoffset: 0.06;
+  animation: route-signal 4.8s var(--ease-in-out) var(--signal-delay, 0s) infinite;
+}
+
+@keyframes route-signal {
+  0% {
+    stroke-dashoffset: 0.06;
+  }
+  62%,
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
+.node-in {
+  opacity: 0;
+  transform: scale(0.94);
+  animation: node-in 0.7s var(--ease-out) var(--node-delay, 0s) forwards;
+}
+
+@keyframes node-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Scroll cue: a short line that keeps travelling down its track. */
+.scroll-cue-line {
+  animation: scroll-cue 2.2s var(--ease-in-out) infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
   }
 }
 
@@ -183,7 +311,25 @@ a {
     transition-duration: 0ms;
   }
 
-  .cursor {
+  .cursor,
+  .route-signal,
+  .scroll-cue-line {
     animation: none;
+  }
+
+  .route-signal {
+    display: none;
+  }
+
+  .load-in,
+  .kinetic-inner,
+  .node-in,
+  .route-draw,
+  .type-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+    width: auto;
   }
 }

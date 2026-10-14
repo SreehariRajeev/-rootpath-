@@ -8,26 +8,17 @@ import {
   useTransform,
 } from "motion/react";
 
+import { KineticText } from "@/components/motion/kinetic-text";
+import { Magnetic } from "@/components/motion/magnetic";
+import { SystemMap } from "@/components/sections/hero-system-map";
 import { Button } from "@/components/ui/button";
 import { goToContact } from "@/lib/contact";
 
-const spring = {
-  type: "spring" as const,
-  stiffness: 260,
-  damping: 20,
-  mass: 0.8,
-};
+const command = "> start --build --beyond";
 
-const heroItem = {
-  hidden: { opacity: 0, transform: "translateY(18px)" },
-  visible: { opacity: 1, transform: "translateY(0)" },
-};
-
-const capabilities = [
-  "Web development",
-  "Mobile apps",
-  "Cloud infrastructure",
-] as const;
+function delay(seconds: number) {
+  return { "--load-delay": `${seconds}s` } as React.CSSProperties;
+}
 
 export function Hero() {
   const shouldReduceMotion = useReducedMotion() ?? false;
@@ -36,16 +27,14 @@ export function Hero() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  // The grid drifts slower than the page and the copy lifts away as the hero scrolls out.
-  const gridY = useTransform(scrollYProgress, [0, 1], ["0px", "120px"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0px", "-40px"]);
-  const contentOpacity = useTransform(scrollYProgress, [0.55, 1], [1, 0.25]);
-  const reveal = (delay: number) => ({
-    variants: heroItem,
-    initial: shouldReduceMotion ? false : "hidden",
-    animate: "visible",
-    transition: { ...spring, delay },
-  });
+
+  // As the hero leaves: the grid drifts down, the copy lifts and fades, the map rises
+  // slower than the copy so the two separate in depth.
+  const gridY = useTransform(scrollYProgress, [0, 1], ["0px", "140px"]);
+  const copyY = useTransform(scrollYProgress, [0, 1], ["0px", "-90px"]);
+  const copyOpacity = useTransform(scrollYProgress, [0.25, 0.85], [1, 0]);
+  const mapY = useTransform(scrollYProgress, [0, 1], ["0px", "-40px"]);
+  const mapOpacity = useTransform(scrollYProgress, [0.4, 1], [1, 0.2]);
 
   return (
     <section
@@ -59,18 +48,16 @@ export function Hero() {
         style={shouldReduceMotion ? undefined : { y: gridY }}
         className="grid-motif pointer-events-none absolute inset-x-0 -top-32 bottom-0"
       />
-      <motion.div
-        style={
-          shouldReduceMotion
-            ? undefined
-            : { y: contentY, opacity: contentOpacity }
-        }
-        className="relative mx-auto grid max-w-7xl items-stretch gap-14 px-6 pb-24 pt-20 sm:gap-16 sm:pb-28 sm:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.55fr)] lg:gap-20 lg:px-10 lg:pb-32 lg:pt-28"
-      >
-        <div>
-          <motion.p
-            {...reveal(0)}
-            className="mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-accent"
+
+      <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 pb-28 pt-16 sm:pt-20 lg:min-h-[calc(100svh-5.5rem)] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-12 lg:px-10 lg:pb-32 lg:pt-12">
+        <motion.div
+          style={
+            shouldReduceMotion ? undefined : { y: copyY, opacity: copyOpacity }
+          }
+        >
+          <p
+            className="load-in mb-8 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.16em] text-accent"
+            style={delay(0.05)}
           >
             <span
               aria-hidden="true"
@@ -82,91 +69,98 @@ export function Hero() {
             <span className="hidden text-muted-subtle sm:inline">
               / IT services &amp; consulting
             </span>
-          </motion.p>
+          </p>
 
-          <motion.h1
+          <h1
             id="hero-heading"
-            {...reveal(0.08)}
-            className="max-w-5xl text-[clamp(2.75rem,5.6vw,5.75rem)] font-medium leading-[0.92] tracking-[-0.03em] text-foreground"
+            className="text-[clamp(2.6rem,4.7vw,4.75rem)] font-medium leading-[0.95] tracking-[-0.035em] text-foreground"
           >
-            <span className="block">Small team. Direct access.</span>
-            <span className="mt-3 block text-accent">Faster decisions.</span>
-          </motion.h1>
+            <KineticText
+              delay={0.15}
+              lines={[
+                { text: "Small team." },
+                { text: "Direct access." },
+                { text: "Faster decisions.", className: "text-accent" },
+              ]}
+            />
+          </h1>
 
-          <motion.p
-            {...reveal(0.16)}
-            className="mt-8 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
+          <p
+            className="load-in mt-8 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
+            style={delay(0.55)}
           >
             Web, mobile, cloud, and technical strategy. Direct collaboration,
             focused scope, and fast delivery.
-          </motion.p>
-
-          <motion.p {...reveal(0.2)} className="mt-6 text-sm sm:text-base">
-            <span className="font-mono text-accent">
-              &gt; start --build --beyond
-            </span>
-            <span aria-hidden="true" className="cursor text-accent" />
-          </motion.p>
-
-          <motion.div
-            {...reveal(0.24)}
-            className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center"
-          >
-            <Button
-              size="lg"
-              onClick={() => {
-                goToContact();
-              }}
-            >
-              Start a project
-            </Button>
-            <motion.a
-              href="#services"
-              whileHover={shouldReduceMotion ? undefined : "hover"}
-              variants={{ rest: {}, hover: {} }}
-              className="group inline-flex items-center gap-2 text-sm font-medium text-foreground outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
-            >
-              Explore services
-              <motion.span
-                aria-hidden="true"
-                variants={{
-                  rest: { transform: "translateX(0)" },
-                  hover: { transform: "translateX(5px)" },
-                }}
-                transition={spring}
-                className="text-muted-foreground transition-colors duration-500 ease-out group-hover:text-accent group-focus-visible:text-accent"
-              >
-                →
-              </motion.span>
-            </motion.a>
-          </motion.div>
-        </div>
-
-        <motion.aside
-          {...reveal(0.18)}
-          aria-label="Root-Path capabilities"
-          className="border-t border-accent/40 pt-8 lg:mt-16 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
-        >
-          <p className="eyebrow">Close to the work</p>
-          <p className="mt-5 max-w-xs text-lg leading-7 tracking-[-0.02em] text-foreground">
-            Fewer handoffs. Direct access to the people making the decisions.
           </p>
 
-          <div className="mt-8 border-t border-border">
-            {capabilities.map((capability) => (
-              <div
-                key={capability}
-                className="flex items-center justify-between border-b border-border py-4 text-sm text-muted-foreground"
-              >
-                <span>{capability}</span>
-                <span aria-hidden="true" className="font-mono text-accent">
-                  ▹
+          <p className="mt-6 font-mono text-sm text-accent sm:text-base">
+            <span className="sr-only">{command}</span>
+            <span
+              aria-hidden="true"
+              className="type-in"
+              style={
+                {
+                  "--chars": command.length,
+                  "--type-delay": "0.9s",
+                } as React.CSSProperties
+              }
+            >
+              {command}
+            </span>
+            <span aria-hidden="true" className="cursor" />
+          </p>
+
+          <div
+            className="load-in mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center"
+            style={delay(0.75)}
+          >
+            <Magnetic>
+              <Button size="lg" onClick={() => goToContact()}>
+                Start a project
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-500 ease-[var(--ease-out)] group-hover:translate-x-1"
+                >
+                  →
                 </span>
-              </div>
-            ))}
+              </Button>
+            </Magnetic>
+            <a
+              href="#services"
+              className="group inline-flex items-center gap-2 bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-1 text-sm font-medium text-foreground outline-none transition-[background-size] duration-500 ease-[var(--ease-out)] hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px]"
+            >
+              Explore services
+              <span
+                aria-hidden="true"
+                className="text-muted-foreground transition-[color,transform] duration-500 ease-[var(--ease-out)] group-hover:translate-x-1 group-hover:text-accent"
+              >
+                →
+              </span>
+            </a>
           </div>
-        </motion.aside>
-      </motion.div>
+        </motion.div>
+
+        <motion.div
+          role="group"
+          aria-label="How a Root-Path project connects: from the root of the problem, through each service, to the outcome"
+          style={
+            shouldReduceMotion ? undefined : { y: mapY, opacity: mapOpacity }
+          }
+        >
+          <SystemMap scrollProgress={scrollYProgress} />
+        </motion.div>
+      </div>
+
+      <a
+        href="#services"
+        className="load-in absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-xs tracking-[0.04em] text-muted-subtle outline-none transition-colors hover:text-accent focus-visible:text-accent lg:flex"
+        style={delay(1.6)}
+      >
+        <span className="relative h-8 w-px overflow-hidden bg-border-strong">
+          <span className="scroll-cue-line absolute inset-0 bg-accent" />
+        </span>
+        cd ./services
+      </a>
     </section>
   );
 }

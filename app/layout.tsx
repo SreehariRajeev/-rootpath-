@@ -10,6 +10,7 @@ import {
 } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 export const dynamic = "force-static";

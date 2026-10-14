@@ -1,3 +1,5 @@
+import { scrollToElement } from "@/lib/smooth-scroll";
+
 export const contactEmail = "connect@root-path.tech";
 export const contactHref = `mailto:${contactEmail}`;
 
@@ -17,10 +19,6 @@ export function goToContact() {
     window.location.hash = "#contact";
     return;
   }
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  target.scrollIntoView({
-    behavior: reduce ? "auto" : "smooth",
-    block: "start",
-  });
+  scrollToElement(target);
   window.history.replaceState(null, "", "#contact");
 }
