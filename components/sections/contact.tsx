@@ -86,7 +86,7 @@ export function Contact() {
     >
       <div className="grid gap-12 lg:grid-cols-[minmax(16rem,0.7fr)_minmax(0,1.3fr)] lg:gap-20">
         <Reveal className="self-start lg:sticky lg:top-28">
-          <p className="eyebrow">Request a quote</p>
+          <p className="eyebrow">04 · Contact</p>
           <h2
             id="contact-heading"
             className="mt-5 max-w-xl text-4xl font-medium leading-[1] tracking-[-0.03em] text-foreground sm:text-5xl"

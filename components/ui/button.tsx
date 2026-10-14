@@ -4,13 +4,14 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
+// Hover fills sweep in from the left through `before:` (see the base classes below).
 const buttonVariants = {
   primary:
-    "border-accent bg-accent text-accent-foreground hover:-translate-y-px hover:bg-accent-strong",
+    "border-accent bg-accent text-accent-foreground before:bg-accent-strong",
   secondary:
-    "border-border-strong bg-surface-elevated text-foreground hover:border-accent/60 hover:bg-surface",
+    "border-border-strong bg-surface-elevated text-foreground hover:border-accent/60 before:bg-surface",
   outline:
-    "border-border-strong bg-transparent text-foreground hover:border-accent/60 hover:bg-surface",
+    "border-border-strong bg-transparent text-foreground hover:border-accent/60 before:bg-surface",
   ghost:
     "border-transparent bg-transparent text-muted-foreground hover:border-border hover:text-foreground",
 } as const;
@@ -55,7 +56,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         disabled={disabled}
         className={cn(
-          "inline-flex shrink-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-lg border font-medium tracking-[-0.01em] outline-none transition-[background-color,border-color,box-shadow,transform] duration-500 ease-out active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-45",
+          "group relative isolate inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-lg border font-medium tracking-[-0.01em] outline-none transition-[background-color,border-color,box-shadow,transform] duration-500 ease-out before:absolute before:inset-0 before:-z-10 before:origin-left before:scale-x-0 before:transition-transform before:duration-500 before:ease-[var(--ease-out)] hover:before:scale-x-100 focus-visible:before:scale-x-100 active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:pointer-events-none disabled:opacity-45",
           buttonVariants[variant],
           buttonSizes[size],
           className,

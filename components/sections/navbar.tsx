@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "01_services", href: "#services" },
-  { label: "02_process", href: "#process" },
-  { label: "03_contact", href: "#contact" },
+  { label: "02_team", href: "#team" },
+  { label: "03_process", href: "#process" },
+  { label: "04_contact", href: "#contact" },
 ] as const;
 
 const spring = {
@@ -21,6 +22,47 @@ const spring = {
   damping: 24,
   mass: 0.7,
 };
+
+/** True while a `[data-band]` section sits behind the navbar's vertical centre. */
+function useOverBand() {
+  const [over, setOver] = React.useState(false);
+
+  React.useEffect(() => {
+    const bands = Array.from(document.querySelectorAll("[data-band]"));
+    if (!bands.length) return;
+    const visible = new Set<Element>();
+    let observer: IntersectionObserver | null = null;
+
+    const observe = () => {
+      observer?.disconnect();
+      visible.clear();
+      // A 2px line across the viewport at the navbar's centre (top-4 + half its height).
+      const line = 44;
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) visible.add(entry.target);
+            else visible.delete(entry.target);
+          });
+          setOver(visible.size > 0);
+        },
+        {
+          rootMargin: `-${line}px 0px -${Math.max(0, window.innerHeight - line - 2)}px 0px`,
+        },
+      );
+      bands.forEach((band) => observer?.observe(band));
+    };
+
+    observe();
+    window.addEventListener("resize", observe);
+    return () => {
+      window.removeEventListener("resize", observe);
+      observer?.disconnect();
+    };
+  }, []);
+
+  return over;
+}
 
 export function Navbar() {
   const [hoveredItem, setHoveredItem] = React.useState<string | null>(null);
@@ -37,11 +79,15 @@ export function Navbar() {
     });
   };
 
+  // Over a System Black band the bar takes the band's tones, so it changes with the section.
+  const overBand = useOverBand();
+
   return (
     <header className="sticky top-4 z-40 mx-4 sm:mx-6 lg:mx-auto lg:max-w-7xl">
       <div
+        data-tone={overBand ? "inverse" : undefined}
         className={cn(
-          "relative rounded-lg border border-border-strong/70 bg-background/80 backdrop-blur-xl",
+          "relative rounded-lg border border-border-strong/70 bg-background/80 text-foreground backdrop-blur-xl transition-[background-color,border-color,color] duration-500 ease-[var(--ease-out)]",
           mobileShellOpen && "rounded-b-none border-b-0",
         )}
       >
