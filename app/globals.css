@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 @theme inline {
   --font-sans: var(--font-root-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-root-display), ui-sans-serif, system-ui, sans-serif;
@@ -54,7 +52,7 @@
   --radius: 0.75rem;
 }
 
-:root[data-theme="dark"],
+/* System Black surfaces (bands, the navbar over a band): the brand's dark token set. */
 [data-surface="inverse"],
 [data-tone="inverse"] {
   color-scheme: dark;
@@ -86,13 +84,6 @@ html {
   scroll-padding-top: 6rem;
 }
 
-html.theme-transition,
-html.theme-transition body {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: 220ms;
-  transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-}
-
 body {
   min-width: 320px;
   background: var(--background);
@@ -115,11 +106,6 @@ h3 {
 [data-surface="inverse"] {
   background: var(--background);
   color: var(--foreground);
-}
-
-/* Bands stay System Black in light mode; in dark mode they lift a step so their edges read. */
-:root[data-theme="dark"] [data-band] {
-  --background: #111715;
 }
 
 /* Thin light that follows the cursor along an element's border (set --mx / --my in px). */
@@ -346,11 +332,6 @@ a {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  html.theme-transition,
-  html.theme-transition body {
-    transition-duration: 0ms;
   }
 
   .cursor,

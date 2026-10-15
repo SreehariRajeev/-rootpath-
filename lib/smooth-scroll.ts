@@ -21,7 +21,7 @@ function easeInOutCubic(t: number) {
  * rather than getBoundingClientRect, so scroll-linked transforms (sections that rise or
  * scale in as they enter) never shift where a jump lands.
  */
-function layoutTop(element: HTMLElement) {
+export function layoutTop(element: HTMLElement) {
   let top = 0;
   let node: HTMLElement | null = element;
   while (node) {
@@ -44,7 +44,12 @@ export function scrollToElement(element: HTMLElement) {
     ) || 0;
   const margin =
     Number.parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
-  const top = Math.max(0, layoutTop(element) - padding - margin);
+  scrollToY(layoutTop(element) - padding - margin);
+}
+
+/** Glides the page to an absolute scroll position, with the same pacing as `scrollToElement`. */
+export function scrollToY(target: number) {
+  const top = Math.max(0, target);
   const lenis = getLenis();
 
   if (lenis) {
