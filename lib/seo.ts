@@ -1,4 +1,4 @@
-import { contactHref } from "@/lib/contact";
+import { contactEmail } from "@/lib/contact";
 
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://root-path.tech"
@@ -10,8 +10,6 @@ export const SITE_TITLE = "Root-Path | Small-team digital engineering";
 
 export const SITE_DESCRIPTION =
   "Root-Path is a senior digital engineering team across design, frontend, backend and engineering management, building web platforms, mobile apps, cloud infrastructure and technical strategy.";
-
-const contactEmail = contactHref.replace(/^mailto:/i, "");
 
 export function getJsonLd() {
   const organizationId = `${SITE_URL}/#organization`;

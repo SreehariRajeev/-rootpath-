@@ -8,23 +8,14 @@
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
-  --color-surface-tint: var(--surface-tint);
-  --color-surface-soft: var(--surface-soft);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted-subtle: var(--muted-subtle);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
-  --color-accent-soft: var(--accent-soft);
   --color-accent-foreground: var(--accent-foreground);
-  --color-ring: var(--ring);
   --color-brand-green: #185e3f;
-  --color-brand-green-dark: #0e3a2b;
-  --color-brand-green-light: #a7c4b0;
-  --color-system-black: #0b0f0e;
-  --color-charcoal: #1e2422;
-  --color-off-white: #f7f9f8;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -36,7 +27,6 @@
   --foreground: #0b0f0e;
   --surface: rgb(167 196 176 / 0.12);
   --surface-elevated: #ffffff;
-  --surface-tint: rgb(167 196 176 / 0.22);
   --surface-soft: rgb(167 196 176 / 0.14);
   --border: rgb(11 15 14 / 0.12);
   --border-strong: rgb(11 15 14 / 0.26);
@@ -45,9 +35,7 @@
   --accent: #185e3f;
   --accent-rgb: 24 94 63;
   --accent-strong: #0e3a2b;
-  --accent-soft: rgb(24 94 63 / 0.12);
   --accent-foreground: #f7f9f8;
-  --ring: #185e3f;
   --shadow-rgb: 11 15 14;
   --radius: 0.75rem;
 }
@@ -60,7 +48,6 @@
   --foreground: #f7f9f8;
   --surface: #1e2422;
   --surface-elevated: #1e2422;
-  --surface-tint: rgb(24 94 63 / 0.2);
   --surface-soft: rgb(167 196 176 / 0.12);
   --border: rgb(167 196 176 / 0.16);
   --border-strong: rgb(167 196 176 / 0.28);
@@ -69,9 +56,7 @@
   --accent: #a7c4b0;
   --accent-rgb: 167 196 176;
   --accent-strong: #f7f9f8;
-  --accent-soft: rgb(167 196 176 / 0.14);
   --accent-foreground: #0b0f0e;
-  --ring: #a7c4b0;
   --shadow-rgb: 11 15 14;
 }
 
@@ -273,6 +258,11 @@ html.lenis {
   animation: route-signal 4.8s var(--ease-in-out) var(--signal-delay, 0s) infinite;
 }
 
+/* Animating a stroke repaints on the main thread, so signals idle while off screen or inactive. */
+[data-live="false"] .route-signal {
+  animation-play-state: paused;
+}
+
 @keyframes route-signal {
   0% {
     stroke-dashoffset: 0.06;
@@ -323,6 +313,96 @@ html.lenis {
   60%,
   100% {
     transform: translateX(100%);
+  }
+}
+
+/* ---------- Cursor ---------- */
+
+/*
+ * While the custom ring is showing (`has-cursor` is set by CustomCursor), the system cursor is
+ * hidden everywhere except in text fields, where the I-beam stays. Keyed to a precise pointer, so
+ * touch devices and anyone the ring is not running for keep the system cursor untouched.
+ */
+@media (hover: hover) and (pointer: fine) {
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+
+  html.has-cursor
+    :is(
+      input:not(
+        [type="radio"],
+        [type="checkbox"],
+        [type="button"],
+        [type="submit"],
+        [type="range"]
+      ),
+      textarea,
+      [contenteditable="true"]
+    ) {
+    cursor: text !important;
+  }
+}
+
+/* ---------- Scrollbar ---------- */
+
+:root {
+  --scrollbar-thumb: rgb(24 94 63 / 0.45);
+  --scrollbar-thumb-hover: rgb(24 94 63 / 0.85);
+}
+
+/* Firefox, and anything without ::-webkit-scrollbar: a thin native bar in the brand green. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/*
+ * Chromium and Safari with a precise pointer: a slim pill floating on a hairline rail. It stays a
+ * real scrollbar, so dragging, click-to-jump and keyboard scrolling all keep working. The standard
+ * properties are reset first because Chromium ignores ::-webkit-scrollbar once they are set.
+ */
+@media (hover: hover) and (pointer: fine) {
+  @supports selector(::-webkit-scrollbar) {
+    html {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+      border-left: 1px solid var(--border);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      min-height: 48px;
+      border: 3px solid transparent;
+      border-radius: 999px;
+      background-color: var(--scrollbar-thumb);
+      background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-thumb-hover);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background-color: var(--accent-strong);
+    }
+
+    ::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
   }
 }
 

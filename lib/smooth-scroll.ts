@@ -7,7 +7,7 @@ export function setLenis(lenis: Lenis | null) {
 }
 
 /** The active smooth-scroll instance, or null when it is off (reduced motion, before mount). */
-export function getLenis() {
+function getLenis() {
   return instance;
 }
 
@@ -21,7 +21,7 @@ function easeInOutCubic(t: number) {
  * rather than getBoundingClientRect, so scroll-linked transforms (sections that rise or
  * scale in as they enter) never shift where a jump lands.
  */
-export function layoutTop(element: HTMLElement) {
+function layoutTop(element: HTMLElement) {
   let top = 0;
   let node: HTMLElement | null = element;
   while (node) {
@@ -48,7 +48,7 @@ export function scrollToElement(element: HTMLElement) {
 }
 
 /** Glides the page to an absolute scroll position, with the same pacing as `scrollToElement`. */
-export function scrollToY(target: number) {
+function scrollToY(target: number) {
   const top = Math.max(0, target);
   const lenis = getLenis();
 

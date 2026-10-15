@@ -3,10 +3,10 @@
 import * as React from "react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 
+import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-/** One easing and one distance for the whole site, so every section moves the same way. */
-const ease = [0.22, 1, 0.36, 1] as const;
+/* One easing and one distance for the whole site, so every section moves the same way. */
 
 export const revealItem: Variants = {
   hidden: { opacity: 0, transform: "translateY(18px)" },

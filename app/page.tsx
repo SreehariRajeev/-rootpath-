@@ -7,6 +7,7 @@ import { Hero } from "@/components/sections/hero";
 import { Navbar } from "@/components/sections/navbar";
 import { Process } from "@/components/sections/process/process";
 import { Services } from "@/components/sections/services/services";
+import { CustomCursor } from "@/components/motion/custom-cursor";
 import { GrowIn } from "@/components/motion/grow";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -24,6 +25,7 @@ export default function HomePage() {
     <>
       <SmoothScroll />
       <ScrollProgress />
+      <CustomCursor />
       <Navbar />
       <main>
         <Hero />

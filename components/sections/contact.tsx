@@ -10,12 +10,12 @@ import {
   contactEmail,
   contactEndpoint,
   contactHref,
+  requestTypes,
   type ContactPrefill,
   type RequestType,
 } from "@/lib/contact";
+import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-
-const requestTypes: readonly RequestType[] = ["Quote", "Proposal", "Review"];
 
 /** What each request type means, so nobody has to guess which one to pick. */
 const requestHints: Record<RequestType, string> = {
@@ -60,7 +60,6 @@ const validators: Record<FieldName, (value: string) => string | undefined> = {
       : "Add a few details, at least 10 characters.",
 };
 
-const ease = [0.22, 1, 0.36, 1] as const;
 const slide = { type: "spring" as const, stiffness: 340, damping: 32, mass: 0.8 };
 
 const errorColor = "text-[#a3564f]";
@@ -141,6 +140,8 @@ export function Contact() {
     // Take the visitor straight to the first thing to fix.
     const firstProblem = fieldOrder.find((name) => found[name]);
     if (firstProblem) {
+      // A new attempt clears an earlier "did not send" message instead of stacking on it.
+      setStatus((current) => (current === "error" ? "idle" : current));
       document.getElementById(fieldIds[firstProblem])?.focus();
       return;
     }
