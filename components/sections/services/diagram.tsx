@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { motion, useTransform, type MotionValue } from "motion/react";
+import {
+  motion,
+  useInView,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -97,6 +102,8 @@ export function SystemDiagram({
   className,
 }: SystemDiagramProps) {
   const [hovered, setHovered] = React.useState<string | null>(null);
+  const svgRef = React.useRef<SVGSVGElement>(null);
+  const onScreen = useInView(svgRef);
   const { width, height, frames = [], nodes, edges } = definition;
 
   React.useEffect(() => {
@@ -115,6 +122,9 @@ export function SystemDiagram({
 
   return (
     <svg
+      ref={svgRef}
+      // The looping signals only run while this diagram is on screen and is the active one.
+      data-live={interactive && onScreen}
       role="img"
       aria-label={definition.description}
       viewBox={`0 0 ${width} ${height}`}

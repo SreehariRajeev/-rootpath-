@@ -15,18 +15,19 @@ import "./globals.css";
 
 export const dynamic = "force-static";
 
+// Space Grotesk and Inter ship the same file whether or not weights are listed, so leaving
+// `weight` out only drops the per-weight @font-face rules from the render-blocking CSS.
+// JetBrains Mono keeps its list: the full variable range is a larger file than the 400-700 slice.
 const display = Space_Grotesk({
   variable: "--font-root-display",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 const body = Inter({
   variable: "--font-root-body",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 const mono = JetBrains_Mono({

@@ -24,6 +24,7 @@ import {
 } from "@/components/sections/process/data";
 import { Button } from "@/components/ui/button";
 import { goToContact } from "@/lib/contact";
+import { clamp01 } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /** Horizontal geometry of the path, measured from layout (transforms do not affect it). */
@@ -44,8 +45,6 @@ const TRACK_Y = 16;
 const CARD_TOP = 56;
 /** Horizontal offset of a stage's node from its card's left edge. */
 const NODE_X = 34;
-
-const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 export function Process() {
   const isDesktop = useMediaQuery("(min-width: 1024px)");

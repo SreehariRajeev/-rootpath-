@@ -9,9 +9,8 @@ import {
   type MotionValue,
 } from "motion/react";
 
+import { easeOutCubic } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 interface GrowBandProps {
   children: React.ReactNode;
@@ -43,7 +42,10 @@ export function GrowBand({
   });
 
   const clipPath = useTransform([enter, leave], ([e, l]: number[]) => {
-    const fold = Math.max(1 - easeOut(e), foldOut ? easeOut(l) * 0.8 : 0);
+    const fold = Math.max(
+      1 - easeOutCubic(e),
+      foldOut ? easeOutCubic(l) * 0.8 : 0,
+    );
     const inset = (fold * 4.5).toFixed(3);
     const radius = (fold * 44).toFixed(1);
     return `inset(0% ${inset}% 0% ${inset}% round ${radius}px)`;
@@ -63,7 +65,7 @@ export function GrowBand({
 }
 
 /** Scroll progress of an element entering the viewport, for content that settles as it arrives. */
-export function useEnterProgress(
+function useEnterProgress(
   ref: React.RefObject<HTMLElement | null>,
   offset: [string, string] = ["start end", "start 35%"],
 ) {
@@ -90,7 +92,7 @@ export function GrowIn({ children, className, offset }: GrowInProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion() ?? false;
   const progress = useEnterProgress(ref, offset);
-  const eased = useTransform(progress, easeOut);
+  const eased = useTransform(progress, easeOutCubic);
   const y = useTransform(eased, [0, 1], [72, 0]);
   const scale = useTransform(eased, [0, 1], [0.94, 1]);
   const opacity = useTransform(eased, [0, 0.6, 1], [0.15, 0.85, 1]);

@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   motion,
+  useInView,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -10,6 +11,10 @@ import {
   type MotionValue,
 } from "motion/react";
 
+import {
+  services as serviceData,
+  type Service,
+} from "@/components/sections/services/data";
 import { LogoMark } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
@@ -22,38 +27,19 @@ import { cn } from "@/lib/utils";
 const VIEW = { w: 600, h: 480 };
 const MID = 240;
 
-const services = [
-  {
-    id: "web",
-    path: "/web",
-    name: "Web development",
-    detail: "Web platforms built for the next release.",
-    y: 84,
-  },
-  {
-    id: "mobile",
-    path: "/mobile",
-    name: "Mobile app development",
-    detail: "Mobile apps with a clear path from screen to screen.",
-    y: 188,
-  },
-  {
-    id: "cloud",
-    path: "/cloud",
-    name: "Cloud and API engineering",
-    detail: "APIs and infrastructure without the black box.",
-    y: 292,
-  },
-  {
-    id: "consult",
-    path: "/consult",
-    name: "Technical consulting",
-    detail: "Turn technical complexity into a clear next move.",
-    y: 396,
-  },
-] as const;
+/** Vertical position of each route, top to bottom, in the order of the services data. */
+const rows = [84, 188, 292, 396];
 
-type ServiceId = (typeof services)[number]["id"];
+// The map reads its names, paths and one-liners from the services data, so the two never drift.
+const services = serviceData.map((service, index) => ({
+  id: service.id,
+  path: service.path,
+  name: service.name,
+  detail: `${service.title}.`,
+  y: rows[index],
+}));
+
+type ServiceId = Service["id"];
 type Active = ServiceId | "root" | "outcome" | null;
 type CaptionKey = NonNullable<Active> | "idle";
 
@@ -143,6 +129,9 @@ interface SystemMapProps {
 export function SystemMap({ scrollProgress }: SystemMapProps) {
   const shouldReduceMotion = useReducedMotion() ?? false;
   const [active, setActive] = React.useState<Active>(null);
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  // The looping route signals pause once the hero has scrolled out of view.
+  const onScreen = useInView(rootRef);
 
   // Pointer position across the viewport, -0.5..0.5 on each axis, eased.
   const pointerX = useMotionValue(0);
@@ -150,16 +139,28 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
   const easedX = useSpring(pointerX, layerSpring);
   const easedY = useSpring(pointerY, layerSpring);
 
+  // The latest pointer position is always recorded, but the springs only run while the hero is on
+  // screen. On coming back into view they catch up to where the pointer is now.
+  const lastPointer = React.useRef({ x: 0, y: 0 });
+
   React.useEffect(() => {
     if (shouldReduceMotion) return;
+    const apply = () => {
+      pointerX.set(lastPointer.current.x);
+      pointerY.set(lastPointer.current.y);
+    };
     const handle = (event: PointerEvent) => {
       if (event.pointerType !== "mouse") return;
-      pointerX.set(event.clientX / window.innerWidth - 0.5);
-      pointerY.set(event.clientY / window.innerHeight - 0.5);
+      lastPointer.current = {
+        x: event.clientX / window.innerWidth - 0.5,
+        y: event.clientY / window.innerHeight - 0.5,
+      };
+      if (onScreen) apply();
     };
+    if (onScreen) apply();
     window.addEventListener("pointermove", handle, { passive: true });
     return () => window.removeEventListener("pointermove", handle);
-  }, [shouldReduceMotion, pointerX, pointerY]);
+  }, [shouldReduceMotion, onScreen, pointerX, pointerY]);
 
   // Scroll sinks the dot field behind the map; lines and nodes move together so routes stay attached.
   const dotsScroll = useTransform(scrollProgress, [0, 1], [0, 60]);
@@ -179,7 +180,7 @@ export function SystemMap({ scrollProgress }: SystemMapProps) {
     shouldReduceMotion ? undefined : { x, y };
 
   return (
-    <div className="@container relative w-full">
+    <div ref={rootRef} data-live={onScreen} className="@container relative w-full">
       <div
         className="relative w-full"
         style={{ aspectRatio: `${VIEW.w} / ${VIEW.h}` }}

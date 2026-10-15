@@ -18,11 +18,10 @@ import {
 } from "@/components/sections/engagements/data";
 import { Button } from "@/components/ui/button";
 import { startRequest } from "@/lib/contact";
+import { clamp01, easeOutCubic } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const pad = (value: number) => String(value).padStart(2, "0");
-const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
-const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
 /** Where "now" sits as the page scrolls, as a share of the viewport height. */
 const NOW = "70%";
@@ -316,7 +315,7 @@ function Arrive({
   className?: string;
   children: React.ReactNode;
 }) {
-  const eased = useTransform(value, easeOut);
+  const eased = useTransform(value, easeOutCubic);
   const opacity = useTransform(eased, [0, 1], [0.15, 1]);
   const y = useTransform(eased, [0, 1], [32, 0]);
 

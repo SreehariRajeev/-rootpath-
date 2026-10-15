@@ -5,13 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { GrowBand } from "@/components/motion/grow";
 import { CliSignature, LogoMark } from "@/components/ui/logo";
 import { Reveal } from "@/components/ui/reveal";
-
-const footerLinks = [
-  { label: "01_services", href: "#services" },
-  { label: "02_engage", href: "#engagements" },
-  { label: "03_process", href: "#process" },
-  { label: "04_contact", href: "#contact" },
-] as const;
+import { sectionLinks } from "@/lib/nav";
 
 const spring = {
   type: "spring" as const,
@@ -68,7 +62,7 @@ export function Footer() {
               className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
             >
               <nav aria-label="Footer navigation" className="grid gap-4">
-                {footerLinks.map((link) => (
+                {sectionLinks.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}

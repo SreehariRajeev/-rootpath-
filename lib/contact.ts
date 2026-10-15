@@ -12,7 +12,8 @@ export const contactEndpoint =
   process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ??
   `https://formsubmit.co/ajax/${contactEmail}`;
 
-export type RequestType = "Quote" | "Proposal" | "Review";
+export const requestTypes = ["Quote", "Proposal", "Review"] as const;
+export type RequestType = (typeof requestTypes)[number];
 
 /** Form fields a call to action pre-selects. A service left out is cleared; a request type left out is kept. */
 export interface ContactPrefill {

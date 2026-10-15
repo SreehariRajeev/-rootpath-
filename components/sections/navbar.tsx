@@ -6,14 +6,8 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/ui/logo";
 import { goToContact } from "@/lib/contact";
+import { sectionLinks } from "@/lib/nav";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { label: "01_services", href: "#services" },
-  { label: "02_engage", href: "#engagements" },
-  { label: "03_process", href: "#process" },
-  { label: "04_contact", href: "#contact" },
-] as const;
 
 const spring = {
   type: "spring" as const,
@@ -104,7 +98,7 @@ export function Navbar() {
             onMouseLeave={() => setHoveredItem(null)}
             className="hidden items-center gap-1 md:flex"
           >
-            {navItems.map((item) => (
+            {sectionLinks.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -185,7 +179,7 @@ export function Navbar() {
               style={{ transformOrigin: "top" }}
               className="absolute -left-px -right-px top-[calc(100%-1px)] z-50 rounded-b-lg border-x border-b border-border-strong/70 bg-background px-3 pb-3 pt-2 backdrop-blur-xl will-change-[clip-path,transform] md:hidden"
             >
-              {navItems.map((item) => (
+              {sectionLinks.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}

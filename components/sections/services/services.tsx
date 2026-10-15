@@ -18,6 +18,7 @@ import { services, type Service } from "@/components/sections/services/data";
 import { SystemDiagram } from "@/components/sections/services/diagram";
 import { Button } from "@/components/ui/button";
 import { goToContact } from "@/lib/contact";
+import { ease } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const COUNT = services.length;
@@ -291,7 +292,7 @@ function Stage({ progress, active }: StageProps) {
                 initial={{ y: "100%", opacity: 0 }}
                 animate={{ y: "0%", opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.35, ease }}
               >
                 {service.path}
               </motion.span>
