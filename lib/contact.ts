@@ -12,6 +12,24 @@ export const contactEndpoint =
   process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ??
   `https://formsubmit.co/ajax/${contactEmail}`;
 
+export type RequestType = "Quote" | "Proposal" | "Review";
+
+/** Form fields a call to action pre-selects. A service left out is cleared; a request type left out is kept. */
+export interface ContactPrefill {
+  requestType?: RequestType;
+  service?: string;
+}
+
+export const PREFILL_EVENT = "rootpath:prefill";
+
+/** Pre-selects the request form, then smooth-scrolls to it. */
+export function startRequest(prefill: ContactPrefill) {
+  window.dispatchEvent(
+    new CustomEvent<ContactPrefill>(PREFILL_EVENT, { detail: prefill }),
+  );
+  goToContact();
+}
+
 /** Smooth-scrolls to the contact form section. */
 export function goToContact() {
   const target = document.getElementById("contact");

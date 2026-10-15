@@ -143,7 +143,7 @@ export function Process() {
               className={cn(
                 "relative",
                 horizontal
-                  ? "flex w-max items-start gap-6 pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pr-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pt-14"
+                  ? "flex w-max items-stretch gap-6 pl-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pr-[max(2.5rem,calc((100vw-80rem)/2+2.5rem))] pt-14"
                   : "mx-auto flex max-w-7xl flex-col px-6 py-24 sm:py-28 lg:px-10",
               )}
             >
@@ -460,7 +460,7 @@ const KeepPanel = React.forwardRef<HTMLDivElement, PanelMotionProps>(
       <motion.div
         ref={ref}
         style={{ opacity, y }}
-        className="w-[30rem] shrink-0"
+        className="w-[34rem] shrink-0"
       >
         {content}
       </motion.div>

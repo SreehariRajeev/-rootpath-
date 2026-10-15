@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
 import { Contact } from "@/components/sections/contact";
+import { Engagements } from "@/components/sections/engagements/engagements";
 import { Footer } from "@/components/sections/footer";
 import { Hero } from "@/components/sections/hero";
 import { Navbar } from "@/components/sections/navbar";
 import { Process } from "@/components/sections/process/process";
-import { Team } from "@/components/sections/team/team";
 import { Services } from "@/components/sections/services/services";
 import { GrowIn } from "@/components/motion/grow";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
@@ -28,7 +28,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <Services />
-        <Team />
+        <Engagements />
         <Process />
         <GrowIn>
           <Contact />
