@@ -75,8 +75,15 @@
   --shadow-rgb: 11 15 14;
 }
 
-* {
-  border-color: var(--border);
+/*
+ * Default border colour. It sits in the base layer so that any border-colour utility
+ * (border-accent, hover:border-accent/40, border-transparent...) beats it. Unlayered, it would
+ * override all of them.
+ */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
 }
 
 html {
