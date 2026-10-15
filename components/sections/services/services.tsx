@@ -189,7 +189,7 @@ function Step({ service, index, progress, scrubbed }: StepProps) {
         <p className="flex items-center gap-3 font-mono text-xs text-accent">
           <span>{String(index + 1).padStart(2, "0")}</span>
           <span className="h-px w-6 bg-accent/50" />
-          <span>{service.path}</span>
+          <span>{service.name}</span>
         </p>
         <h3
           id={`service-${service.id}-title`}

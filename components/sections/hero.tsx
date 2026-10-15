@@ -67,7 +67,7 @@ export function Hero() {
               ROOT-PATH
             </span>
             <span className="hidden text-muted-subtle sm:inline">
-              / IT services &amp; consulting
+              / digital engineering
             </span>
           </p>
 
@@ -89,9 +89,9 @@ export function Hero() {
             className="load-in mt-8 max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
             style={delay(0.55)}
           >
-            Senior design, frontend, backend and engineering management in one
-            team. You work directly with the people who design, build and ship
-            your product.
+            Web, mobile and cloud engineering from one senior team: design,
+            frontend, backend and engineering management. You work directly
+            with the people who design, build and ship your product.
           </p>
 
           <p className="mt-6 font-mono text-sm text-accent sm:text-base">

@@ -87,7 +87,7 @@ export function Navbar() {
         <div className="flex h-14 items-center justify-between px-3 sm:px-4">
           <a
             href="#top"
-            aria-label="RootPath home"
+            aria-label="Root-Path home"
             className="inline-flex items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
           >
             <LogoMark className="text-base sm:text-[17px]" />

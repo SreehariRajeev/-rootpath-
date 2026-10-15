@@ -78,7 +78,7 @@ export function Footer() {
           <div className="mt-20 flex flex-col gap-4 border-t border-border pt-5 text-xs text-muted-subtle sm:mt-24 sm:flex-row sm:items-center sm:justify-between">
             <a
               href="#top"
-              aria-label="RootPath, back to top"
+              aria-label="Root-Path, back to top"
               className="inline-flex w-fit items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
             >
               <LogoMark className="text-base leading-none sm:text-lg" />
