@@ -28,24 +28,28 @@ export function KineticText({
 
   return (
     <>
-      {lines.map((line) => (
-        <span key={line.text} className={cn("block", line.className)}>
-          {line.text.split(" ").map((word, wordIndex, words) => {
-            const style = {
-              "--kinetic-delay": `${delay + index++ * step}s`,
-            } as React.CSSProperties;
-            return (
-              <React.Fragment key={`${word}-${wordIndex}`}>
-                <span className="kinetic-word">
-                  <span className="kinetic-inner" style={style}>
-                    {word}
+      {lines.map((line, lineIndex) => (
+        <React.Fragment key={line.text}>
+          <span className={cn("block", line.className)}>
+            {line.text.split(" ").map((word, wordIndex, words) => {
+              const style = {
+                "--kinetic-delay": `${delay + index++ * step}s`,
+              } as React.CSSProperties;
+              return (
+                <React.Fragment key={`${word}-${wordIndex}`}>
+                  <span className="kinetic-word">
+                    <span className="kinetic-inner" style={style}>
+                      {word}
+                    </span>
                   </span>
-                </span>
-                {wordIndex < words.length - 1 ? " " : null}
-              </React.Fragment>
-            );
-          })}
-        </span>
+                  {wordIndex < words.length - 1 ? " " : null}
+                </React.Fragment>
+              );
+            })}
+          </span>
+          {/* Block spans collapse this space visually; text-only readers get "team. Direct". */}
+          {lineIndex < lines.length - 1 ? " " : null}
+        </React.Fragment>
       ))}
     </>
   );

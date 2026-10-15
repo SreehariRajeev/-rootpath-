@@ -6,10 +6,22 @@ export const SITE_URL = (
 
 export const SITE_NAME = "Root-Path";
 
-export const SITE_TITLE = "Root-Path | Small-team digital engineering";
+/** Other spellings people use for the brand, so they resolve to the same entity. */
+export const SITE_ALTERNATE_NAMES = ["RootPath", "Root Path"];
+
+// Title stays under ~60 characters and the description under ~155, where Google starts cutting.
+export const SITE_TITLE = "Root-Path | Digital Engineering for Web, Mobile & Cloud";
 
 export const SITE_DESCRIPTION =
-  "Root-Path is a senior digital engineering team across design, frontend, backend and engineering management, building web platforms, mobile apps, cloud infrastructure and technical strategy.";
+  "A small senior team for web platforms, mobile apps, cloud and API engineering, and technical consulting. You work directly with the people who ship.";
+
+/** Static file in /public (see scripts/generate-brand-assets.mjs). */
+export const OG_IMAGE = {
+  url: "/og.png",
+  width: 1200,
+  height: 630,
+  alt: "Root-Path: small team, direct access, faster decisions",
+};
 
 export function getJsonLd() {
   const organizationId = `${SITE_URL}/#organization`;
@@ -23,6 +35,7 @@ export function getJsonLd() {
         "@type": "Organization",
         "@id": organizationId,
         name: SITE_NAME,
+        alternateName: SITE_ALTERNATE_NAMES,
         url: SITE_URL,
         email: contactEmail,
         slogan: "Small team. Direct access. Faster decisions.",
