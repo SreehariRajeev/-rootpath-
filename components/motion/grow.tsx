@@ -32,9 +32,11 @@ export function GrowBand({
 }: GrowBandProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion() ?? false;
+  // Starts at 95% of the viewport, where the first band rests beneath the hero, so it sits
+  // fully folded on the first screen and unfolds from the first scroll.
   const { scrollYProgress: enter } = useScroll({
     target: ref,
-    offset: ["start end", "start 18%"],
+    offset: ["start 95%", "start 18%"],
   });
   const { scrollYProgress: leave } = useScroll({
     target: ref,
@@ -47,8 +49,9 @@ export function GrowBand({
       foldOut ? easeOutCubic(l) * 0.8 : 0,
     );
     const inset = (fold * 4.5).toFixed(3);
-    const radius = (fold * 44).toFixed(1);
-    return `inset(0% ${inset}% 0% ${inset}% round ${radius}px)`;
+    // Capped by viewport height so the thin slice under the hero still reads as a panel top
+    // with a flat edge, rather than two corners meeting.
+    return `inset(0% ${inset}% 0% ${inset}% round calc(${fold.toFixed(3)} * min(44px, 3.5svh)))`;
   });
 
   return (

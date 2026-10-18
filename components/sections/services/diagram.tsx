@@ -58,7 +58,7 @@ export interface DiagramDefinition {
 
 const NODE_HEIGHT = 48;
 
-/** Orthogonal polyline with rounded corners, in the style of the hero system map. */
+/** Orthogonal polyline with rounded corners. */
 export function routePath(points: Point[], radius = 12) {
   if (points.length < 2) return "";
   let d = `M${points[0][0]} ${points[0][1]}`;

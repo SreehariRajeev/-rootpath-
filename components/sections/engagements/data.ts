@@ -6,7 +6,7 @@ import type { ContactPrefill } from "@/lib/contact";
  *  - States the commitment and the risk plainly. No prices, timelines, response times or
  *    guarantees, because the site makes none.
  *  - Does not repeat other sections: no tech names (Services), no files or stages (Process),
- *    no "senior / direct access" (Hero), no "not sure which route fits" (end of Services).
+ *    no "small team / direct access" (Hero), no "not sure which route fits" (end of Services).
  *  - Each call to action names what happens and matches the label on the contact form.
  *
  * The shape each engagement takes over time is drawn in engagements.tsx, as a lane.

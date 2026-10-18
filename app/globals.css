@@ -2,8 +2,11 @@
 
 @theme inline {
   --font-sans: var(--font-root-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-root-display), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-root-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-display:
+    var(--font-root-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    var(--font-root-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface: var(--surface);
@@ -16,6 +19,11 @@
   --color-accent-strong: var(--accent-strong);
   --color-accent-foreground: var(--accent-foreground);
   --color-brand-green: #185e3f;
+  --color-brand-green-dark: #0e3a2b;
+  --color-brand-green-light: #a7c4b0;
+  --color-system-black: #0b0f0e;
+  --color-charcoal: #1e2422;
+  --color-off-white: #f7f9f8;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -148,16 +156,16 @@ h3 {
     linear-gradient(rgb(var(--accent-rgb) / 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgb(var(--accent-rgb) / 0.07) 1px, transparent 1px);
   background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 75%);
-}
-
-/* Dot field behind the hero system map. */
-.map-dots {
-  background-image: radial-gradient(rgb(var(--accent-rgb) / 0.22) 1px, transparent 1.6px);
-  background-size: 24px 24px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 80%);
-  mask-image: radial-gradient(ellipse 70% 65% at 50% 50%, #000 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 30% 40%,
+    #000 30%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 30% 40%,
+    #000 30%,
+    transparent 75%
+  );
 }
 
 .cursor {
@@ -223,39 +231,38 @@ html.lenis {
   }
 }
 
-/* Typed command. Monospace, so `ch` is exactly one character. */
-.type-in {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  vertical-align: bottom;
-  width: 0;
-  animation: type-in 1.1s steps(var(--chars)) var(--type-delay, 0s) forwards;
+/* Hero highlighter: a marker stroke wipes in behind a phrase. A background rather than a
+   pseudo-element, so a phrase that wraps gets its own stroke on every line. */
+.hl {
+  background-image: linear-gradient(var(--hl-color), var(--hl-color));
+  background-repeat: no-repeat;
+  background-position: 0 0.62em;
+  background-size: 0% 0.4em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: hl-in 0.9s var(--ease-out) var(--hl-delay, 0s) forwards;
 }
 
-@keyframes type-in {
+.hl-green {
+  --hl-color: rgb(167 196 176 / 0.55);
+}
+
+.hl-grey {
+  --hl-color: rgb(11 15 14 / 0.06);
+}
+
+@keyframes hl-in {
   to {
-    width: calc(var(--chars) * 1ch);
+    background-size: 100% 0.4em;
   }
 }
 
-/* System map: routes draw from root to outcome, then a short signal travels each one. */
-.route-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: route-draw 1.3s var(--ease-in-out) var(--route-delay, 0s) forwards;
-}
-
-@keyframes route-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
+/* Diagram routes: a short signal travels each route once it is drawn. */
 .route-signal {
   stroke-dasharray: 0.06 2;
   stroke-dashoffset: 0.06;
-  animation: route-signal 4.8s var(--ease-in-out) var(--signal-delay, 0s) infinite;
+  animation: route-signal 4.8s var(--ease-in-out) var(--signal-delay, 0s)
+    infinite;
 }
 
 /* Animating a stroke repaints on the main thread, so signals idle while off screen or inactive. */
@@ -270,34 +277,6 @@ html.lenis {
   62%,
   100% {
     stroke-dashoffset: -1;
-  }
-}
-
-.node-in {
-  opacity: 0;
-  transform: scale(0.94);
-  animation: node-in 0.7s var(--ease-out) var(--node-delay, 0s) forwards;
-}
-
-@keyframes node-in {
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Scroll cue: a short line that keeps travelling down its track. */
-.scroll-cue-line {
-  animation: scroll-cue 2.2s var(--ease-in-out) infinite;
-}
-
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-100%);
-  }
-  60%,
-  100% {
-    transform: translateY(100%);
   }
 }
 
@@ -423,7 +402,6 @@ a {
 
   .cursor,
   .route-signal,
-  .scroll-cue-line,
   .path-cue {
     animation: none;
   }
@@ -433,14 +411,14 @@ a {
   }
 
   .load-in,
-  .kinetic-inner,
-  .node-in,
-  .route-draw,
-  .type-in {
+  .kinetic-inner {
     animation: none;
     opacity: 1;
     transform: none;
-    stroke-dashoffset: 0;
-    width: auto;
+  }
+
+  .hl {
+    animation: none;
+    background-size: 100% 0.4em;
   }
 }
