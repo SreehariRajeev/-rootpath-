@@ -174,15 +174,17 @@ export function HeroStatement() {
       ref={sectionRef}
       id="top"
       aria-labelledby="hero-heading"
-      // Shorter than the viewport, so the Services band shows below and grows as you scroll.
-      className="relative flex flex-col justify-center lg:min-h-[calc(100svh-9.5rem)]"
+      // The navbar (58px in flow: 56px bar plus its 1px borders) and the hero fill 85% of the
+      // viewport, so the Services band shows as exactly the bottom 15% of the first screen on
+      // phones and desktops. svh keeps that share stable while a phone's browser bar shows.
+      className="relative flex min-h-[calc(85svh-58px)] flex-col justify-center"
     >
       <motion.div
         style={shouldReduceMotion ? undefined : { y, opacity }}
-        className="mx-auto w-full max-w-7xl px-6 py-14 lg:px-10 lg:py-10"
+        className="mx-auto w-full max-w-7xl px-6 py-6 sm:py-8 lg:px-10"
       >
         <p
-          className="load-in font-display text-[clamp(1.2rem,1.75vw,1.6rem)] font-medium tracking-[-0.02em] text-foreground"
+          className="load-in font-display text-[clamp(1.05rem,min(1.75vw,2.6svh),1.6rem)] font-medium tracking-[-0.02em] text-foreground"
           style={delay(0.05)}
         >
           Web, mobile and cloud engineering,{" "}
@@ -191,7 +193,7 @@ export function HeroStatement() {
 
         <h1
           id="hero-heading"
-          className="mt-4 text-[clamp(2.5rem,7.4vw,7rem)] font-medium leading-[1.04] tracking-[-0.045em] text-foreground"
+          className="mt-3 text-[clamp(2.4rem,min(7.4vw,10.5svh),7rem)] sm:mt-4 font-medium leading-[1.04] tracking-[-0.045em] text-foreground"
         >
           <span className="block">
             <Words text="Small team." start={0.15} />
@@ -208,7 +210,7 @@ export function HeroStatement() {
           </span>
         </h1>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end lg:gap-16">
+        <div className="mt-7 grid gap-8 sm:mt-10 lg:mt-[min(3rem,5svh)] lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end lg:gap-16">
           <div>
             <p
               className="load-in max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
@@ -218,7 +220,7 @@ export function HeroStatement() {
               product, with no account layer in between.
             </p>
             <div
-              className="load-in mt-8 flex flex-wrap items-center gap-4"
+              className="load-in mt-6 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4"
               style={delay(1.05)}
             >
               <Magnetic>

@@ -34,8 +34,9 @@ export function GrowBand({
   const shouldReduceMotion = useReducedMotion() ?? false;
   const { scrollYProgress: enter } = useScroll({
     target: ref,
-    // Starts just above the fold, so a band peeking below the hero rests fully folded.
-    offset: ["start 92%", "start 18%"],
+    // Starts where the band rests below the hero (85% down the first screen), so it sits
+    // fully folded there and grows from the first pixel of scroll.
+    offset: ["start 85%", "start 18%"],
   });
   const { scrollYProgress: leave } = useScroll({
     target: ref,
