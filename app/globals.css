@@ -421,27 +421,29 @@ html {
     6px 6px;
 }
 
-/* Hero: highlighter stroke that wipes in behind a phrase. */
-.hl-bar {
-  position: absolute;
-  inset: 0.5em -0.08em 0.08em -0.08em;
-  border-radius: 0.06em;
-  transform: scaleX(0);
-  transform-origin: left center;
+/* Hero: highlighter stroke that wipes in behind a phrase. A background on an inline span,
+   cloned per line, so a phrase that wraps gets a stroke on each line. */
+.hl {
+  background-image: linear-gradient(var(--hl-color), var(--hl-color));
+  background-repeat: no-repeat;
+  background-position: 0 0.62em;
+  background-size: 0% 0.4em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   animation: hl-in 0.9s var(--ease-out) var(--hl-delay, 0s) forwards;
 }
 
 .hl-green {
-  background: rgb(167 196 176 / 0.55);
+  --hl-color: rgb(167 196 176 / 0.55);
 }
 
 .hl-grey {
-  background: rgb(11 15 14 / 0.06);
+  --hl-color: rgb(11 15 14 / 0.06);
 }
 
 @keyframes hl-in {
   to {
-    transform: scaleX(1);
+    background-size: 100% 0.4em;
   }
 }
 
@@ -485,7 +487,7 @@ a {
   }
 
   .load-in,
-  .hl-bar,
+  .hl,
   .pop-in,
   .kinetic-inner,
   .node-in,

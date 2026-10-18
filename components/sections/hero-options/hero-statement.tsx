@@ -55,48 +55,11 @@ function Mark({
   at: number;
 }) {
   return (
-    <span className="relative inline-block">
-      <span
-        aria-hidden="true"
-        className={cn("hl-bar", tone === "green" ? "hl-green" : "hl-grey")}
-        style={{ "--hl-delay": `${at}s` } as React.CSSProperties}
-      />
-      <span className="relative">{children}</span>
-    </span>
-  );
-}
-
-/** Round inline badge set into the headline, like a glyph. */
-function IconPill({ kind, at }: { kind: "terminal" | "route"; at: number }) {
-  return (
-    // inline-block with absolutely placed content has no baseline of its own, so it sits
-    // on the text baseline and lines up with the capitals.
     <span
-      aria-hidden="true"
-      className="pop-in relative mr-[0.18em] inline-block size-[0.74em] rounded-full bg-system-black align-[-0.02em] text-off-white"
-      style={{ "--pop-delay": `${at}s` } as React.CSSProperties}
+      className={cn("hl", tone === "green" ? "hl-green" : "hl-grey")}
+      style={{ "--hl-delay": `${at}s` } as React.CSSProperties}
     >
-      <span className="absolute inset-0 grid place-items-center">
-        {kind === "terminal" ? (
-          <span className="font-mono text-[0.3em] font-bold leading-none tracking-[-0.04em]">
-            &gt;<span className="text-brand-green-light">_</span>
-          </span>
-        ) : (
-          <svg
-            viewBox="0 0 24 24"
-            className="size-[0.4em]"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2.2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="5" cy="18" r="2.2" />
-            <circle cx="19" cy="6" r="2.2" style={{ stroke: "#a7c4b0" }} />
-            <path d="M7 16.5 11 13a2 2 0 0 1 2.6 0l.8.7a2 2 0 0 0 2.6 0L17.3 8" />
-          </svg>
-        )}
-      </span>
+      {children}
     </span>
   );
 }
@@ -222,24 +185,23 @@ export function HeroStatement() {
           className="load-in font-display text-[clamp(1.2rem,1.75vw,1.6rem)] font-medium tracking-[-0.02em] text-foreground"
           style={delay(0.05)}
         >
-          One senior team, <span className="text-muted-subtle">end to end.</span>
+          Web, mobile and cloud engineering,{" "}
+          <span className="text-muted-subtle">from first brief to production.</span>
         </p>
 
         <h1
           id="hero-heading"
-          className="mt-4 text-[clamp(3rem,7.4vw,7rem)] font-medium leading-[1.04] tracking-[-0.045em] text-foreground"
+          className="mt-4 text-[clamp(2.5rem,7.4vw,7rem)] font-medium leading-[1.04] tracking-[-0.045em] text-foreground"
         >
           <span className="block">
             <Words text="Small team." start={0.15} />
           </span>
           <span className="block">
-            <IconPill kind="terminal" at={0.55} />
             <Mark tone="green" at={0.9}>
               <Words text="Direct access." start={0.35} />
             </Mark>
           </span>
           <span className="block">
-            <IconPill kind="route" at={0.75} />
             <Mark tone="grey" at={1.1}>
               <Words text="Faster decisions." start={0.55} />
             </Mark>
@@ -249,11 +211,11 @@ export function HeroStatement() {
         <div className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end lg:gap-16">
           <div>
             <p
-              className="load-in max-w-md text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
+              className="load-in max-w-lg text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8"
               style={delay(0.9)}
             >
-              Web, mobile and cloud engineering from one senior team. You work
-              directly with the people who design, build and ship your product.
+              You work directly with the designers and engineers building your
+              product, with no account layer in between.
             </p>
             <div
               className="load-in mt-8 flex flex-wrap items-center gap-4"
