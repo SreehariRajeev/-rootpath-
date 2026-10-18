@@ -10,10 +10,11 @@ export const SITE_NAME = "Root-Path";
 export const SITE_ALTERNATE_NAMES = ["RootPath", "Root Path"];
 
 // Title stays under ~60 characters and the description under ~155, where Google starts cutting.
-export const SITE_TITLE = "Root-Path | Digital Engineering for Web, Mobile & Cloud";
+export const SITE_TITLE =
+  "Root-Path | Digital Engineering for Web, Mobile & Cloud";
 
 export const SITE_DESCRIPTION =
-  "A small senior team for web platforms, mobile apps, cloud and API engineering, and technical consulting. You work directly with the people who ship.";
+  "Web platforms, mobile apps, cloud and API engineering and technical consulting, from first brief to production. Work directly with the engineers who ship.";
 
 /** Static file in /public (see scripts/generate-brand-assets.mjs). */
 export const OG_IMAGE = {
